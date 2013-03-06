@@ -2,7 +2,7 @@ Backbone = require 'backbone'
 
 class PostModel extends Backbone.Model
 
-  url: -> "post/#{@get('id')}"
+  urlRoot: -> "/api/post"
 
   sync: (method, model, options)->
     if not Backbone.isServer

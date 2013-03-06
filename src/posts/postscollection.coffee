@@ -10,7 +10,7 @@ class PostsCollection extends Backbone.Collection
 
   sync: (method, model, options)->
     if not Backbone.isServer
-      super
+      super method, model, options
     else
       switch method
         when "read"

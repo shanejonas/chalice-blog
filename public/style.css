@@ -7,18 +7,18 @@ body {
 }
 
 a {
-  color: #eff4ff;
-  min-width: 90px;
-  min-height: 32px;
-  height: 32px;
-  background-color: #2d89ef;
-  border: 1px transparent solid;
-  color: #353535;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  padding: 12px 15px 2px 15px;
-  position: relative;
+  /* color: #eff4ff; */
+  /* min-width: 90px; */
+  /* min-height: 32px; */
+  /* height: 32px; */
+  /* background-color: #2d89ef; */
+  /* border: 1px transparent solid; */
+  /* color: #353535; */
+  /* margin-right: 10px; */
+  /* margin-bottom: 10px; */
+  /* display: inline-block; */
+  /* text-align: center; */
+  /* vertical-align: middle; */
+  /* padding: 12px 15px 2px 15px; */
+  /* position: relative; */
 }

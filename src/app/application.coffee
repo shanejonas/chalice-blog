@@ -4,12 +4,13 @@ if not Backbone.isServer? then require 'anatomy/anatomy_client'
 PostsView = require '../posts/postsview'
 PostView = require '../post/postview'
 PostsCollection = require '../posts/postscollection'
+posts = new PostsCollection
+posts.fetch()
 
 class Application extends Backbone.Router
 
   initialize: ->
-    @posts = new PostsCollection posts
-    @posts.fetch()
+    @posts = posts
 
   routes:
     '': 'default'
