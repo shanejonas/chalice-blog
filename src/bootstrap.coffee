@@ -1,5 +1,7 @@
 Backbone = require 'backbone'
 Backbone.$ ?= require 'jqueryify'
 App = require './app/application'
-new App
-Backbone.$ -> Backbone.history.start pushState: yes
+app = new App
+Backbone.$ ->
+  Backbone.history.start pushState: yes
+  $('body').html app.appView.render().el

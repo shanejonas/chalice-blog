@@ -4,13 +4,14 @@ if not Backbone.isServer? then require 'anatomy/anatomy_client'
 PostsView = require '../posts/postsview'
 PostView = require '../post/postview'
 PostsCollection = require '../posts/postscollection'
-posts = new PostsCollection
-posts.fetch()
+PostModel = require '../post/postmodel'
 
 class Application extends Backbone.Router
 
   initialize: ->
-    @posts = posts
+    data = window?.Data or []
+    @posts = new PostsCollection data
+    this
 
   routes:
     '': 'default'
@@ -18,13 +19,19 @@ class Application extends Backbone.Router
     'posts/:id': 'post'
 
   post: (id)->
-    view = new PostView
-      model: @posts.get id
-    @swap view
+    @fetcher
+      context: @posts
+      callback: =>
+        view = new PostView
+          model: @posts.get id
+        @swap view
 
   default: ->
     view = new PostsView
       collection: @posts
-    @swap view
+    @fetcher
+      context: @posts
+      callback: =>
+        @swap view
 
 module.exports = Application

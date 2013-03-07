@@ -1,32 +1,23 @@
 Backbone = require 'backbone'
+$ = Backbone.$
 template = require './posts.mustache'
 post = require '../post/post.mustache'
 Post = require '../post/postview'
 
-class PostsView extends Backbone.A.View
+class PostsView extends Backbone.A.CompositeView
 
   className: 'PostsView'
 
-  template: template
-
   getViews: ->
-    console.log @collection.models
+    return [] unless @collection?
     if not @views?.length > 0
       @views = (new Post model: model for model in @collection.models)
     @views
 
+  template: template
+
   attach: ->
     @collection.on 'reset', @render, @
-
-  render: ->
-    @$el.html @toHTML()
-    @attach()
-    this
-
-  toHTML: ->
-    views = @getViews()
-    posts = (view.toHTML() for view in views)
-    console.log posts
-    @template posts: posts.join ''
+    super
 
 module.exports = PostsView
