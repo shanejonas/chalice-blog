@@ -1,6 +1,11 @@
 <article>
-  <a href="{{url}}">
+  {{#parent}}
+    <a href="{{url}}">
+      <h1>{{title}}</h1>
+    </a>
+  {{/parent}}
+  {{^parent}}
     <h1>{{title}}</h1>
-  </a>
+  {{/parent}}
   {{body}}
 </article>
