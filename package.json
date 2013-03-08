@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "description": "Holy Grail blog app",
   "main": "index.js",
-  "scripts": {},
-  "repository": "",
+  "scripts": {
+    "start": "./node_modules/.bin/anatomy"
+  },
   "author": "Shane Jonas",
   "appOptions": {
     "entry": "./src/bootstrap.coffee",
@@ -12,10 +13,11 @@
     "watch": true
   },
   "dependencies": {
-    "anatomy": "git://github.com/shanejonas/anatomy.git#master",
+    "anatomy": "git://github.com/shanejonas/anatomy.git#develop",
     "backbone": "~0.9.10",
     "underscore": "~1.4.4",
     "jqueryify": "~1.9.1",
-    "hogan.js": "~2.0.0"
+    "hogan.js": "~2.0.0",
+    "underscore.string": "~2.3.1"
   }
 }

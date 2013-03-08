@@ -1,0 +1,2 @@
+# To Run:
+`npm start`
