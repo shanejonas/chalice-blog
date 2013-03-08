@@ -12,7 +12,7 @@
     "watch": true
   },
   "dependencies": {
-    "anatomy": "git@github.com:shanejonas/anatomy.git"
+    "anatomy": "git@github.com:shanejonas/anatomy.git",
     "backbone": "~0.9.10",
     "underscore": "~1.4.4",
     "jqueryify": "~1.9.1",
