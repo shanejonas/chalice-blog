@@ -4,4 +4,4 @@ App = require './app/application'
 app = new App
 Backbone.$ ->
   Backbone.history.start pushState: yes
-  $('body').html app.appView.render().el
+  $('body').html app.appView.el

@@ -5,8 +5,11 @@ PostsView = require '../posts/postsview'
 PostView = require '../post/postview'
 PostsCollection = require '../posts/postscollection'
 PostModel = require '../post/postmodel'
+EditPostView = require '../post/editpostview'
 
 class Application extends Backbone.Router
+
+  uniqueName: 'app'
 
   initialize: ->
     data = window?.Data or []
@@ -15,23 +18,43 @@ class Application extends Backbone.Router
 
   routes:
     '': 'default'
-    'posts': 'default'
+    'new': 'newPost'
+    'posts/:id/edit': 'editPost'
     'posts/:id': 'post'
+    'posts': 'default'
 
-  post: (id)->
+  newPost: ->
+    newModel = new PostModel
+    view = new EditPostView
+      model: newModel
+      uniqueName: 'new_post'
+    @trigger 'doneFetch'
+    @swap view
+
+  editPost: (id)->
+    post = @posts.getOrMake id
+    view = new EditPostView
+      model: post
+      uniqueName: 'edit_post'
     @fetcher
-      context: @posts
-      callback: =>
-        view = new PostView
-          model: @posts.get id
-        @swap view
+      context: post
+      callback: => @swap view
+
+  post: ([id])->
+    post = @posts.getOrMake id
+    view = new PostView
+      model: post
+      uniqueName: 'post_by_id_view'
+    @fetcher
+      context: post
+      callback: => @swap view
 
   default: ->
     view = new PostsView
       collection: @posts
+      uniqueName: 'posts_view'
     @fetcher
       context: @posts
-      callback: =>
-        @swap view
+      callback: => @swap view
 
 module.exports = Application

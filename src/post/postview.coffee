@@ -1,6 +1,6 @@
 Backbone = require 'backbone'
 $ = Backbone.$
-template = require '../post/post.mustache'
+template = require './post.mustache'
 _ = require 'underscore'
 _.str = require 'underscore.string'
 _.mixin _.str.exports()
@@ -8,6 +8,11 @@ _.mixin _.str.exports()
 class PostView extends Backbone.A.View
 
   className: "PostView"
+
+  attach: ->
+    super
+    @model.once 'sync', =>
+      @model.on 'change', (=> @render(yes)), @
 
   getTemplateData: ->
     body = @model.get('body')

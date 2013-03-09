@@ -10,8 +10,17 @@ class PostModel extends Backbone.Model
       super
     else
       switch method
+        when "create"
+          API.createPost @toJSON(), (err, resp)->
+            options.success model, resp, options
         when "read"
-          resp = API.getPostsById(@get('id'))
-      options.success model, resp, options
+          resp = API.getPostsById @get('id'), (err, resp)->
+            options.success model, resp, options
+        when "update"
+          resp = API.updatePost @get('id'), @toJSON(), (err, resp)->
+            options.success model, resp, options
+        when "delete"
+          resp = API.deletePost @get('id'), (err, resp)->
+            options.success model, resp, options
 
 module.exports = PostModel
