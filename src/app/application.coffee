@@ -6,12 +6,20 @@ PostView = require '../post/postview'
 PostsCollection = require '../posts/postscollection'
 PostModel = require '../post/postmodel'
 EditPostView = require '../post/editpostview'
+NavBarView = require '../navbar/navbarview'
+
+config = require './config'
 
 class Application extends Backbone.Router
 
   uniqueName: 'app'
 
+  getNavigationView: ->
+    new NavBarView
+      collection: new Backbone.Collection config.navigationItems
+
   initialize: ->
+    @appView.addView @getNavigationView()
     data = window?.Data or []
     @posts = new PostsCollection data
     this
