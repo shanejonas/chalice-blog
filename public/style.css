@@ -6,6 +6,15 @@ body {
   font-size: 9pt;
 }
 
+.NavBarView {
+  width: 100%;
+  top: 0;
+  position: fixed;
+  height: 35px;
+  background: white;
+  font-size: 17pt;
+}
+
 a {
   /* color: #eff4ff; */
   /* min-width: 90px; */
