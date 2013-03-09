@@ -1,2 +1,5 @@
 # To Run:
-`npm start`
+```
+  npm install
+  npm start
+```
