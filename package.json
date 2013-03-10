@@ -10,13 +10,16 @@
   "appOptions": {
     "entry": "./src/bootstrap.coffee",
     "mount": "/application.js",
-    "watch": true
+    "watch": true,
+    "ignore": [
+      "./api",
+      "./server"
+    ]
   },
   "dependencies": {
     "anatomy": "git://github.com/shanejonas/anatomy.git#develop",
     "backbone": "~0.9.10",
     "underscore": "~1.4.4",
-    "jqueryify": "~1.9.1",
     "hogan.js": "~2.0.0",
     "underscore.string": "~2.3.1"
   }

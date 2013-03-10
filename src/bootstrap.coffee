@@ -1,5 +1,5 @@
 Backbone = require 'backbone'
-Backbone.$ ?= require 'jqueryify'
+Backbone.$ ?= require('../vendor/zepto')
 App = require './app/application'
 app = new App
 Backbone.$ ->

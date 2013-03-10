@@ -1,3 +1,4 @@
+#// @browserify-ignore
 API = require './api'
 
 module.exports = (app)->
