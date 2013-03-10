@@ -6,6 +6,10 @@ body {
   font-size: 9pt;
 }
 
+img {
+  max-width: 100%
+}
+
 .NavBarView {
   /* prevent chrome from painting sticky bar*/
   -webkit-backface-visibility: hidden;
