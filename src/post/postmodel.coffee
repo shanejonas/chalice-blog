@@ -3,7 +3,15 @@ if Backbone.isServer then API = require '../../api'
 
 class PostModel extends Backbone.Model
 
-  urlRoot: -> "/api/posts"
+  idAttribute: '_id'
+
+  url: (opts)->
+    url = "/api/posts"
+    slug = @get('slug')
+    if slug
+      url + "/#{slug}"
+    else
+      url
 
   sync: (method, model, options)->
     if not Backbone.isServer
@@ -14,13 +22,13 @@ class PostModel extends Backbone.Model
           API.createPost @toJSON(), (err, resp)->
             options.success model, resp, options
         when "read"
-          resp = API.getPostsById @get('id'), (err, resp)->
+          resp = API.getPostsBySlug @get('slug'), (err, resp)->
             options.success model, resp, options
         when "update"
-          resp = API.updatePost @get('id'), @toJSON(), (err, resp)->
+          resp = API.updatePost @get('slug'), @toJSON(), (err, resp)->
             options.success model, resp, options
         when "delete"
-          resp = API.deletePost @get('id'), (err, resp)->
+          resp = API.deletePost @get('slug'), (err, resp)->
             options.success model, resp, options
 
 module.exports = PostModel

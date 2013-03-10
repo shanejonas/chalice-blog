@@ -15,9 +15,10 @@ class EditPostView extends Backbone.A.View
   submit: (e)->
     e.preventDefault()
     attrs = @serialize()
+    attrs.slug = _.slugify attrs.title
     @model.set attrs
     @model.save()
-    Backbone.history.navigate "/posts/#{@model.get('id')}", trigger: yes
+    Backbone.history.navigate "/posts/#{@model.get('slug')}", trigger: yes
 
   serialize: ->
     title: @$("input[name='title']").val()

@@ -27,20 +27,21 @@ class Application extends Backbone.Router
   routes:
     '': 'default'
     'new': 'newPost'
-    'posts/:id/edit': 'editPost'
-    'posts/:id': 'post'
+    'posts/:slug/edit': 'editPost'
+    'posts/:slug': 'post'
     'posts': 'default'
 
   newPost: ->
     newModel = new PostModel
+    @posts.add newModel
     view = new EditPostView
       model: newModel
       uniqueName: 'new_post'
-    @trigger 'doneFetch'
     @swap view
+    @trigger 'doneFetch'
 
-  editPost: (id)->
-    post = @posts.getOrMake id
+  editPost: (slug) ->
+    post = @posts.getOrMake slug
     view = new EditPostView
       model: post
       uniqueName: 'edit_post'
@@ -48,8 +49,8 @@ class Application extends Backbone.Router
       context: post
       callback: => @swap view
 
-  post: ([id])->
-    post = @posts.getOrMake id
+  post: (slug) ->
+    post = @posts.getOrMake slug
     view = new PostView
       model: post
       uniqueName: 'post_by_id_view'

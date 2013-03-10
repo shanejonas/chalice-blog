@@ -1,65 +1,44 @@
-posts = [
-    id: 1
-    title: 'Post Title'
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie lobortis purus, quis interdum arcu cursus nec. <img src="http://nicenicejpg.com/500/300"> Pellentesque eget massa nisi. Nulla facilisi. Vestibulum bibendum convallis ligula ut mattis. Vestibulum sed metus tortor, ut malesuada tellus. Donec convallis turpis et mi dictum venenatis. Maecenas accumsan vestibulum erat, non hendrerit sem convallis ac.'
-  ,
-    id: 2
-    title: 'Other Post Title'
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie lobortis purus, quis interdum arcu cursus nec. <img src="http://nicenicejpg.com/500/300"> Pellentesque eget massa nisi. Nulla facilisi. Vestibulum bibendum convallis ligula ut mattis. Vestibulum sed metus tortor, ut malesuada tellus. Donec convallis turpis et mi dictum venenatis. Maecenas accumsan vestibulum erat, non hendrerit sem convallis ac.'
-  ,
-    id: 3
-    title: 'Other Post Title'
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie lobortis purus, quis interdum arcu cursus nec. <img src="http://nicenicejpg.com/500/300"> Pellentesque eget massa nisi. Nulla facilisi. Vestibulum bibendum convallis ligula ut mattis. Vestibulum sed metus tortor, ut malesuada tellus. Donec convallis turpis et mi dictum venenatis. Maecenas accumsan vestibulum erat, non hendrerit sem convallis ac.'
-  ,
-    id: 4
-    title: 'Other Post Title'
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie lobortis purus, quis interdum arcu cursus nec. <img src="http://nicenicejpg.com/400/320"> Pellentesque eget massa nisi. Nulla facilisi. Vestibulum bibendum convallis ligula ut mattis. Vestibulum sed metus tortor, ut malesuada tellus. Donec convallis turpis et mi dictum venenatis. Maecenas accumsan vestibulum erat, non hendrerit sem convallis ac.'
-  ,
-    id: 5
-    title: 'Other Post Title'
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie lobortis purus, quis interdum arcu cursus nec. <img src="http://nicenicejpg.com/500/300"> Pellentesque eget massa nisi. Nulla facilisi. Vestibulum bibendum convallis ligula ut mattis. Vestibulum sed metus tortor, ut malesuada tellus. Donec convallis turpis et mi dictum venenatis. Maecenas accumsan vestibulum erat, non hendrerit sem convallis ac.'
-  ,
-    id: 6
-    title: 'Other Post Title'
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie lobortis purus, quis interdum arcu cursus nec. <img src="http://nicenicejpg.com/300/100"> Pellentesque eget massa nisi. Nulla facilisi. Vestibulum bibendum convallis ligula ut mattis. Vestibulum sed metus tortor, ut malesuada tellus. Donec convallis turpis et mi dictum venenatis. Maecenas accumsan vestibulum erat, non hendrerit sem convallis ac.'
-  ,
-    id: 7
-    title: 'Other Post Title'
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie lobortis purus, quis interdum arcu cursus nec. Pellentesque eget massa nisi. Nulla facilisi. Vestibulum bibendum convallis ligula ut mattis. Vestibulum sed metus tortor, ut malesuada tellus. Donec convallis turpis et mi dictum venenatis. Maecenas accumsan vestibulum erat, non hendrerit sem convallis ac.'
-  ,
-    id: 8
-    title: 'Other Post Title'
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie lobortis purus, quis interdum arcu cursus nec. Pellentesque eget massa nisi. Nulla facilisi. Vestibulum bibendum convallis ligula ut mattis. Vestibulum sed metus tortor, ut malesuada tellus. Donec convallis turpis et mi dictum venenatis. Maecenas accumsan vestibulum erat, non hendrerit sem convallis ac.'
-  ,
-    id: 9
-    title: 'Other Post Title'
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie lobortis purus, quis interdum arcu cursus nec. <img src="http://nicenicejpg.com/300/100"> Pellentesque eget massa nisi. Nulla facilisi. Vestibulum bibendum convallis ligula ut mattis. Vestibulum sed metus tortor, ut malesuada tellus. Donec convallis turpis et mi dictum venenatis. Maecenas accumsan vestibulum erat, non hendrerit sem convallis ac.'
-  ,
-    id: 10
-    title: 'Other Post Title'
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie lobortis purus, quis interdum arcu cursus nec. Pellentesque eget massa nisi. Nulla facilisi. Vestibulum bibendum convallis ligula ut mattis. Vestibulum sed metus tortor, ut malesuada tellus. Donec convallis turpis et mi dictum venenatis. Maecenas accumsan vestibulum erat, non hendrerit sem convallis ac.'
-]
+Model = require('mongo-model')
+_ = require 'underscore'
+_.str = require 'underscore.string'
+_.mixin _.str.exports()
+
+class global.Post extends Model
+  @collection 'posts'
+
+clean = (obj)->
+  if _(obj).isArray()
+    clean item for item in obj
+  else
+    delete obj._originalDoc
+    obj
 
 module.exports =
-  deletePost: (id, callback)->
-    delete posts[id]
-    callback(null)
+  deletePost: (slug, callback)->
+    Post.delete {slug: slug}, (err) ->
+      if err then callback err
+      else callback null
 
-  updatePost: (id, post, callback)->
-    _id = id - 1
-    post.id = id
-    posts[_id] = post
-    callback null, post
+  updatePost: (slug, post, callback)->
+    Post.update {slug}, post, (err) ->
+      if err then callback err
+      else callback null
 
   createPost: (post, callback)->
-    id = posts.length
-    post.id = ++id
-    posts.push post
-    callback? null, post
+    post.slug = _.slugify post.title
+    post.created_at = new Date()
+    Post.create post, (err, _post) ->
+      if err then callback err
+      else callback null, clean _post
 
   getPosts: (callback)->
-    callback? null, posts
+    Post.find().all (err, posts) ->
+      if err then callback err
+      else callback null, clean posts
 
-  getPostsById: (id, callback)->
-    post = posts[id - 1]
-    callback? null, post
+  getPostsBySlug: (slug, callback)->
+    if _(slug).isArray() then [slug] = slug
+    Post.first {slug}, (err, post) ->
+      if err then callback err
+      else
+        callback null, clean post

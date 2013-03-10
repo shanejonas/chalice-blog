@@ -8,11 +8,10 @@ class PostsCollection extends Backbone.Collection
 
   model: PostModel
 
-  getOrMake: (id) ->
-    if @get(id)
-      post = @get id
-    else
-      post = new PostModel {id}
+  getOrMake: (slug) ->
+    [post] = @where {slug}
+    if not post
+      post = new PostModel {slug}
       @add post
     post
 
@@ -28,10 +27,10 @@ class PostsCollection extends Backbone.Collection
           resp = API.getPosts (err, resp)->
             options.success model, resp, options
         when "update"
-          resp = API.updatePost @get('id'), @toJSON(), (err, resp)->
+          resp = API.updatePost @get('slug'), @toJSON(), (err, resp)->
             options.success model, resp, options
         when "delete"
-          resp = API.deletePost @get('id'), (err, resp)->
+          resp = API.deletePost @get('slug'), (err, resp)->
             options.success model, resp, options
 
 module.exports = PostsCollection
