@@ -44,6 +44,7 @@ class Application extends Backbone.Router
     view = new LoginView
       model: @session
       message: msg
+      uniqueName: 'login_view'
     @swap view
     @trigger 'doneFetch'
 

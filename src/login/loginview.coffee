@@ -12,19 +12,18 @@ class LoginView extends Backbone.A.View
 
   initialize: (options={})->
     @errors = options.errors or []
-    console.log options.message
     if options.message then @errors.push @options.message
     super
 
-  # events:
-  #   '#form submit': (e)->
-  #     e.preventDefault()
-  #     console.log 'SUBMITTED FORM'
+  events:
+    # stupid form submit isnt working
+    # 'form submit': 'onSubmit'
+    'click #submit': 'onSubmit'
+    'keyup input': 'checkEnter'
 
-  attach: ->
-    super
-    # FIXME: should be in events hash
-    @$('form').off().on 'submit', ((e)=> @onSubmit(e))
+  checkEnter: (e)->
+    if event.keyCode is 13
+      @onSubmit(e)
 
   onSubmit: (e)->
     @errors = []
@@ -36,19 +35,23 @@ class LoginView extends Backbone.A.View
     @model.save {},
       success: =>
         @errors = []
-        console.log 'LOGGED IN!'
+        @oldLogin = null
         Backbone.history.navigate "/posts", trigger: yes
       error: =>
         @errors = ['Username and Password do not match']
+        @oldLogin = {username: attrs.username, password: attrs.password}
         @render(yes)
-        console.log 'NOT LOGGED IN!'
+        @oldLogin = null
 
   serialize: ->
     username: @$("input[name='username']").val()
     password: @$("input[name='password']").val()
 
   getTemplateData: ->
-    {errors: @errors}
+    {
+      errors: @errors
+      oldLogin: @oldLogin
+    }
 
   template: template
 
