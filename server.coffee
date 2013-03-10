@@ -1,10 +1,14 @@
 API = require './api'
 
 createPost = (req, res)->
+  redirect = no
+  if req.body.fromform
+    redirect = yes
+    delete req.body.fromform
   API.createPost req.body, (err, post)->
     if err then res.send 404
     else
-      if req.body.fromform
+      if redirect
         res.redirect "/posts/#{post.slug}"
       else
         res.send post
@@ -15,10 +19,13 @@ deletePost = (req, res)->
     else res.send 200
 
 updatePost = (req, res)->
+  if req.body.fromform
+    redirect = yes
+    delete req.body.fromform
   API.updatePost req.params.slug, req.body, (err, post)->
     if err then res.send 404
     else
-      if req.body.fromform
+      if redirect
         res.redirect "/posts/#{req.params.id}"
       else
         res.send post

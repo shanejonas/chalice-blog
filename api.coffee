@@ -20,6 +20,7 @@ module.exports =
       else callback null
 
   updatePost: (slug, post, callback)->
+    post.updated_at = new Date()
     Post.update {slug}, post, (err) ->
       if err then callback err
       else callback null
@@ -27,12 +28,13 @@ module.exports =
   createPost: (post, callback)->
     post.slug = _.slugify post.title
     post.created_at = new Date()
+    post.updated_at = new Date()
     Post.create post, (err, _post) ->
       if err then callback err
       else callback null, clean _post
 
   getPosts: (callback)->
-    Post.find().all (err, posts) ->
+    Post.find().sort(updated_at: -1).all (err, posts) ->
       if err then callback err
       else callback null, clean posts
 
