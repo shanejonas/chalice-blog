@@ -5,3 +5,4 @@ public/me.js
 .src/
 npm-debug.log
 public/hipster.js
+config.coffee

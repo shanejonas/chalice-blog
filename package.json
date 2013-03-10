@@ -22,6 +22,7 @@
     "underscore": "~1.4.4",
     "hogan.js": "~2.0.0",
     "underscore.string": "~2.3.1",
-    "mongo-model": "~0.3.4"
+    "mongo-model": "~0.3.4",
+    "basic-auth": "0.0.1"
   }
 }

@@ -1,0 +1,13 @@
+<ul class="errors">
+  {{#errors}}
+    <li>{{.}}</li>
+  {{/errors}}
+</ul>
+<form id="form" action="/api/login" method="post">
+  <label>username</label>
+  <input name="username" value=""/>
+  <label>password</label>
+  <input name="password" type="password" value=""/>
+  <input type="hidden" name="fromform" value="yes">
+  <input id="submit" type="submit" value="Login"/>
+</form>

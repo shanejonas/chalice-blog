@@ -7,6 +7,7 @@ PostsCollection = require '../posts/postscollection'
 PostModel = require '../post/postmodel'
 EditPostView = require '../post/editpostview'
 NavBarView = require '../navbar/navbarview'
+LoginView = require '../login/loginview'
 
 config = require './config'
 
@@ -22,34 +23,51 @@ class Application extends Backbone.Router
     @appView.addView @getNavigationView()
     data = window?.Data or []
     @posts = new PostsCollection data
+    @session = new Backbone.Model
     this
 
   routes:
-    '': 'default'
+    '': 'allPosts'
     'new': 'newPost'
     'posts/:slug/edit': 'editPost'
-    'posts/:slug': 'post'
-    'posts': 'default'
+    'posts/:slug': 'postBySlug'
+    'posts': 'allPosts'
+    'login': 'login'
 
-  newPost: ->
-    newModel = new PostModel
-    @posts.add newModel
-    view = new EditPostView
-      model: newModel
-      uniqueName: 'new_post'
+  auth: (cb)->
+    unless @session.get('logged_in') is yes
+      @login('You must be logged in to view that page')
+    else
+      cb()
+
+  login: (msg)->
+    view = new LoginView
+      model: @session
+      message: msg
     @swap view
     @trigger 'doneFetch'
 
-  editPost: (slug) ->
-    post = @posts.getOrMake slug
-    view = new EditPostView
-      model: post
-      uniqueName: 'edit_post'
-    @fetcher
-      context: post
-      callback: => @swap view
+  newPost: ->
+    @auth =>
+      newModel = new PostModel
+      @posts.add newModel
+      view = new EditPostView
+        model: newModel
+        uniqueName: 'new_post'
+      @swap view
+      @trigger 'doneFetch'
 
-  post: (slug) ->
+  editPost: (slug) ->
+    @auth =>
+      post = @posts.getOrMake slug
+      view = new EditPostView
+        model: post
+        uniqueName: 'edit_post'
+      @fetcher
+        context: post
+        callback: => @swap view
+
+  postBySlug: (slug) ->
     post = @posts.getOrMake slug
     view = new PostView
       model: post
@@ -58,7 +76,7 @@ class Application extends Backbone.Router
       context: post
       callback: => @swap view
 
-  default: ->
+  allPosts: ->
     view = new PostsView
       collection: @posts
       uniqueName: 'posts_view'

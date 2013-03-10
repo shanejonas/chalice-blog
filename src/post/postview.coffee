@@ -11,8 +11,7 @@ class PostView extends Backbone.A.View
 
   attach: ->
     super
-    @model.once 'sync', =>
-      @model.on 'change', (=> @render(yes)), @
+    @model.off(null, null, this).on 'change', (=> @render(yes)), @
 
   getTemplateData: ->
     body = @model.get('body')

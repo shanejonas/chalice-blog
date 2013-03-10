@@ -2,5 +2,9 @@ module.exports =
   navigationItems: [
       name: 'Home', url: '/'
     ,
-      name: 'about', url: '/about'
+      name: 'New', url: '/new'
+    ,
+      name: 'About', url: '/about'
+    ,
+      name: 'Login', url: '/login'
   ]

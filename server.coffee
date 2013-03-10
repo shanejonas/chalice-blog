@@ -1,4 +1,5 @@
 API = require './api'
+auth = require './basic-auth'
 
 createPost = (req, res)->
   redirect = no
@@ -41,9 +42,10 @@ getPostsBySlug = (req, res)->
     else res.send post
 
 module.exports = (app)->
-  app.delete '/api/posts/slug', deletePost
-  app.put '/api/posts/:slug', updatePost
-  app.post '/api/posts/:slug', createPost
-  app.post '/api/posts', createPost
+  app.post '/api/login', auth
+  app.delete '/api/posts/slug', auth, deletePost
+  app.put '/api/posts/:slug', auth, updatePost
+  app.post '/api/posts/:slug', auth, createPost
+  app.post '/api/posts', auth, createPost
   app.get '/api/posts', getAllPosts
   app.get '/api/posts/:slug', getPostsBySlug

@@ -1,7 +1,12 @@
+<button class="toggleVim">Toggle Vim</button>
+<button class="toggleLines">Toggle Lines</button>
 <form id="form" action="{{url}}" method="post">
+  <label>Title</label>
   <input name="title" value="{{title}}"/>
   <input type="hidden" name="fromform" value="yes">
+  <label>Body</label>
   <textarea name="body">
+    # always start with a header
     {{body}}
   </textarea>
   <input id="submit" type="submit" value="Submit"/>
