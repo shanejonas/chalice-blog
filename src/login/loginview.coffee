@@ -12,6 +12,7 @@ class LoginView extends Backbone.A.View
 
   initialize: (options={})->
     @errors = options.errors or []
+    @cb = options.cb
     if options.message then @errors.push @options.message
     super
 
@@ -36,7 +37,10 @@ class LoginView extends Backbone.A.View
       success: =>
         @errors = []
         @oldLogin = null
-        Backbone.history.navigate "/posts", trigger: yes
+        if @cb
+          @cb()
+        else
+          Backbone.history.navigate "/posts", trigger: yes
       error: =>
         @errors = ['Username and Password do not match']
         @oldLogin = {username: attrs.username, password: attrs.password}

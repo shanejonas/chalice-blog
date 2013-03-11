@@ -36,15 +36,16 @@ class Application extends Backbone.Router
 
   auth: (cb)->
     unless @session.get('logged_in') is yes
-      @login('You must be logged in to view that page')
+      @login('You must be logged in to view that page', cb)
     else
       cb()
 
-  login: (msg)->
+  login: (msg, cb)->
     view = new LoginView
       model: @session
       message: msg
       uniqueName: 'login_view'
+      cb: cb
     @swap view
     @trigger 'doneFetch'
 
