@@ -21,7 +21,8 @@ class EditPostView extends Backbone.A.View
     'click .toggleVim': 'toggleVim'
     'click .toggleLines': 'toggleLines'
 
-  compileMarkdown: (markdown)->
+  compileMarkdown: ->
+    markdown = @editor.getValue()
     result = Marked(markdown)
     @$('.preview').html result
 
@@ -52,6 +53,7 @@ class EditPostView extends Backbone.A.View
     @model.save()
     Backbone.history.navigate "/posts/#{@model.get('slug')}", trigger: yes
 
+
   initCodeMirror: ->
     area = (@$ "textarea")[0]
     if area
@@ -61,9 +63,8 @@ class EditPostView extends Backbone.A.View
         theme: "solarized dark"
         extraKeys: "Enter": "newlineAndIndentContinueMarkdownList"
         onKeyEvent: (editor, e)=>
-          if e.type is 'keyup'
-            markdown = editor.getValue()
-            @compileMarkdown(markdown)
+          if e.type is 'keyup' then @compileMarkdown()
+      @compileMarkdown()
 
   loadCodeMirror: ->
     if window?.loadedCodeMirror
@@ -81,13 +82,12 @@ class EditPostView extends Backbone.A.View
     title: (@$ "input[name='title']").val()
     body: Marked(@editor.getValue())
 
-
-
   getTemplateData: ->
     body = toMarkdown(@model?.get('body') or '')
     _.extend @model?.toJSON() or {},
       url: @model?.url()
       body: body
+      tags: @model?.get('tags')?.join(',')
 
   template: template
 

@@ -15,17 +15,17 @@ $.getScript = (url, success, error)->
 
 _ = require 'underscore'
 files = [
-  "codemirror/continuelist.js"
-  "codemirror/vim.js"
-  "codemirror/markdown.js"
-  "codemirror/xml.js"
+  "/codemirror/continuelist.js"
+  "/codemirror/vim.js"
+  "/codemirror/markdown.js"
+  "/codemirror/xml.js"
 ]
 
 module.exports = (callback)->
   cb = _.after files.length, callback
 
   # load codemirror first
-  $.getScript "codemirror/codemirror.js", ->
+  $.getScript "/codemirror/codemirror.js", ->
 
     # load the rest
     for file in files
