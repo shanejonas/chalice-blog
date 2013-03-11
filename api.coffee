@@ -7,20 +7,12 @@ navigationItems = require('./src/app/config').navigationItems
 class global.Post extends Model
   @collection 'posts'
 
-filter = (posts)->
-  _.filter posts, (post)->
-    [result] = _(navigationItems).where url: "/posts/" + post.slug
-    if result? then no else yes
-
 clean = (obj)->
   if _(obj).isArray()
-    _obj = filter obj
-    clean item for item in _obj
+    clean item for item in obj
   else
     delete obj._originalDoc
     obj
-
-
 
 module.exports =
   deletePost: (slug, callback)->
@@ -52,4 +44,7 @@ module.exports =
     Post.first {slug}, (err, post) ->
       if err then callback err
       else
-        callback null, clean post
+        if not post?
+          callback 'Post not found.'
+        else
+          callback null, clean post

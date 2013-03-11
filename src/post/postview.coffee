@@ -4,6 +4,7 @@ template = require './post.mustache'
 _ = require 'underscore'
 _.str = require 'underscore.string'
 _.mixin _.str.exports()
+moment = require 'moment'
 
 class PostView extends Backbone.A.View
 
@@ -24,6 +25,7 @@ class PostView extends Backbone.A.View
       parent: @options.parent
       # prune body text if you are in a list
       body: body
+      pubDate: moment(@model.get('updated_at')).format("dddd, MMMM Do YYYY");
 
   template: template
 

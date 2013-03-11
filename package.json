@@ -24,6 +24,7 @@
     "mongo-model": "~0.3.4",
     "basic-auth": "0.0.1",
     "marked": "~0.2.8",
-    "highlight": "~0.2.3"
+    "highlight": "~0.2.3",
+    "moment": "~2.0.0"
   }
 }

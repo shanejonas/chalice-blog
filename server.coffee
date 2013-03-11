@@ -38,7 +38,7 @@ getAllPosts = (req, res)->
 
 getPostsBySlug = (req, res)->
   API.getPostsBySlug req.params.slug, (err, post)->
-    if err then res.send 404
+    if err then res.send 404, 'Post not found'
     else res.send post
 
 module.exports = (app)->
