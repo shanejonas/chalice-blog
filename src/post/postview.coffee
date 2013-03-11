@@ -5,9 +5,16 @@ _ = require 'underscore'
 _.str = require 'underscore.string'
 _.mixin _.str.exports()
 
+Marked = require 'marked'
+Marked.setOptions highlight: (code, lang)->
+  require('../../vendor/highlight').highlightAuto(code).value
+
 class PostView extends Backbone.A.View
 
   className: "PostView"
+
+  getUniqueName: ->
+    @model.get('slug')
 
   attach: ->
     super
@@ -15,11 +22,13 @@ class PostView extends Backbone.A.View
 
   getTemplateData: ->
     body = @model.get('body')
+    body = if @options.parent then _(body).prune(200) else body
+    body = Marked(body)
     _.extend @model?.toJSON(),
       url: "/posts/" + @model.get('slug')
       parent: @options.parent
       # prune body text if you are in a list
-      body: if @options.parent then _(body).prune(200) else body
+      body: body
 
   template: template
 

@@ -1,4 +1,4 @@
-var CodeMirror = require('./codemirror');
+// var CodeMirror = require('./codemirror');
 CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
 
   var htmlFound = CodeMirror.mimeModes.hasOwnProperty("text/html");

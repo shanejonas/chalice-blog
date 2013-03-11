@@ -5447,4 +5447,4 @@ var CodeMirror = (function() {
   return CodeMirror;
 })();
 
-module.exports = CodeMirror;
+window.Codemirror = CodeMirror;

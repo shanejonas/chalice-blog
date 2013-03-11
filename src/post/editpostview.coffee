@@ -6,11 +6,10 @@ _.str = require 'underscore.string'
 _.mixin _.str.exports()
 
 if not Backbone.isServer
-  Codemirror = require '../../vendor/codemirror/codemirror'
-  require '../../vendor/codemirror/continuelist'
-  require '../../vendor/codemirror/xml'
-  require '../../vendor/codemirror/markdown'
-  require '../../vendor/codemirror/vim'
+  FetchCodemirror = require '../commands/fetchcodemirror'
+  Marked = require 'marked'
+  Marked.setOptions highlight: (code, lang)->
+    require('../../vendor/highlight').highlightAuto(code).value
 
 class EditPostView extends Backbone.A.View
 
@@ -20,6 +19,10 @@ class EditPostView extends Backbone.A.View
     'submit form': 'submit'
     'click .toggleVim': 'toggleVim'
     'click .toggleLines': 'toggleLines'
+
+  compileMarkdown: (markdown)->
+    result = Marked(markdown)
+    @$('.preview').html result
 
   toggleVim: (e)->
     if @vim
@@ -45,19 +48,31 @@ class EditPostView extends Backbone.A.View
     @model.save()
     Backbone.history.navigate "/posts/#{@model.get('slug')}", trigger: yes
 
-  attach: ->
-    super
-    area = @$("textarea")[0]
+  initCodeMirror: ->
+    area = (@$ "textarea")[0]
     if area
       @editor ?= CodeMirror.fromTextArea @$("textarea")[0],
         mode: 'markdown'
         lineNumbers: @lines
         theme: "solarized dark"
         extraKeys: "Enter": "newlineAndIndentContinueMarkdownList"
+        onKeyEvent: (editor, e)=>
+          if e.type is 'keyup'
+            markdown = editor.getValue()
+            @compileMarkdown(markdown)
+
+  attach: ->
+    super
+    if window?.loadedCodeMirror
+      @initCodeMirror()
+    else
+      FetchCodemirror =>
+        window?.loadedCodeMirror = yes
+        @initCodeMirror()
 
   serialize: ->
-    title: @$("input[name='title']").val()
-    body: @$("textarea[name='body']").val()
+    title: (@$ "input[name='title']").val()
+    body: @editor.getValue()
 
   getTemplateData: ->
     _.extend @model.toJSON(),

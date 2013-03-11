@@ -52,7 +52,7 @@
  *  8. Set up Vim to work as a keymap for CodeMirror.
  */
 
-var CodeMirror = require('./codemirror');
+// var CodeMirror = require('./codemirror');
 var defaultKeymap = [
   // Key to key mapping. This goes first to make it possible to override
   // existing mappings.

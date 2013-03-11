@@ -12,7 +12,7 @@ class PostsCollection extends Backbone.Collection
     [post] = @where {slug}
     if not post
       post = new PostModel {slug}
-      @add post
+      @add post, at: 0
     post
 
   sync: (method, model, options)->

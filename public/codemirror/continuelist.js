@@ -1,4 +1,4 @@
-var CodeMirror = require('./codemirror');
+// var CodeMirror = require('./codemirror');
 CodeMirror.commands.newlineAndIndentContinueMarkdownList = function(cm) {
   var pos = cm.getCursor(), token = cm.getTokenAt(pos);
   var space;

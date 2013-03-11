@@ -51,7 +51,7 @@ class Application extends Backbone.Router
   newPost: ->
     @auth =>
       newModel = new PostModel
-      @posts.add newModel
+      @posts.add newModel, at: 0
       view = new EditPostView
         model: newModel
         uniqueName: 'new_post'
