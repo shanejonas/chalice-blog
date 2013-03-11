@@ -2,16 +2,25 @@ Model = require('mongo-model')
 _ = require 'underscore'
 _.str = require 'underscore.string'
 _.mixin _.str.exports()
+navigationItems = require('./src/app/config').navigationItems
 
 class global.Post extends Model
   @collection 'posts'
 
+filter = (posts)->
+  _.filter posts, (post)->
+    [result] = _(navigationItems).where url: "/posts/" + post.slug
+    if result? then no else yes
+
 clean = (obj)->
   if _(obj).isArray()
-    clean item for item in obj
+    _obj = filter obj
+    clean item for item in _obj
   else
     delete obj._originalDoc
     obj
+
+
 
 module.exports =
   deletePost: (slug, callback)->

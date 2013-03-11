@@ -12,8 +12,7 @@
     "mount": "/application.js",
     "watch": true,
     "ignore": [
-      "./api",
-      "./server"
+      "./api"
     ]
   },
   "dependencies": {

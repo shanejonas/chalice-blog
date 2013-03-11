@@ -1,8 +1,6 @@
 node_modules
 .DS_STORE
 build
-public/me.js
 .src/
 npm-debug.log
-public/hipster.js
-config.coffee
+public/application.js

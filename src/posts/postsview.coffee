@@ -10,6 +10,10 @@ class PostsView extends Backbone.A.CompositeView
 
   childViewType: Post
 
+  toHTML: ->
+    @getViews()
+    if @views.length > 0 then super else @wrap "No Posts."
+
   template: template
 
 module.exports = PostsView
