@@ -45,6 +45,9 @@ class EditPostView extends Backbone.A.View
     e.preventDefault()
     attrs = @serialize()
     attrs.slug = _.slugify attrs.title
+    if not @model and @collection?
+      @model = new @collection.model
+      @collection.add @model, at: 0
     @model.set attrs
     @model.save()
     Backbone.history.navigate "/posts/#{@model.get('slug')}", trigger: yes
@@ -81,9 +84,9 @@ class EditPostView extends Backbone.A.View
 
 
   getTemplateData: ->
-    body = toMarkdown(@model.get('body') or '')
-    _.extend @model.toJSON(),
-      url: @model.url()
+    body = toMarkdown(@model?.get('body') or '')
+    _.extend @model?.toJSON() or {},
+      url: @model?.url()
       body: body
 
   template: template

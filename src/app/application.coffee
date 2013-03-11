@@ -51,10 +51,8 @@ class Application extends Backbone.Router
 
   newPost: ->
     @auth =>
-      newModel = new PostModel
-      @posts.add newModel, at: 0
       view = new EditPostView
-        model: newModel
+        collection: @posts
         uniqueName: 'new_post'
       @swap view
       @trigger 'doneFetch'
