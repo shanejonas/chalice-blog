@@ -7,6 +7,7 @@ _.mixin _.str.exports()
 
 if not Backbone.isServer
   FetchCodemirror = require '../commands/fetchcodemirror'
+  toMarkdown = require('../../vendor/tomarkdown').toMarkdown
   Marked = require 'marked'
   Marked.setOptions highlight: (code, lang)->
     require('../../vendor/highlight').highlightAuto(code).value
@@ -61,8 +62,7 @@ class EditPostView extends Backbone.A.View
             markdown = editor.getValue()
             @compileMarkdown(markdown)
 
-  attach: ->
-    super
+  loadCodeMirror: ->
     if window?.loadedCodeMirror
       @initCodeMirror()
     else
@@ -70,13 +70,21 @@ class EditPostView extends Backbone.A.View
         window?.loadedCodeMirror = yes
         @initCodeMirror()
 
+  attach: ->
+    super
+    @loadCodeMirror()
+
   serialize: ->
     title: (@$ "input[name='title']").val()
-    body: @editor.getValue()
+    body: Marked(@editor.getValue())
+
+
 
   getTemplateData: ->
+    body = toMarkdown(@model.get('body') or '')
     _.extend @model.toJSON(),
       url: @model.url()
+      body: body
 
   template: template
 
