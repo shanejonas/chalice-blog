@@ -53,7 +53,6 @@ class EditPostView extends Backbone.A.View
     @model.save()
     Backbone.history.navigate "/posts/#{@model.get('slug')}", trigger: yes
 
-
   initCodeMirror: ->
     area = (@$ "textarea")[0]
     if area

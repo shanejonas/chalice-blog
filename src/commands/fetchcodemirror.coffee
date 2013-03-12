@@ -1,8 +1,6 @@
 Backbone = require 'backbone'
 $ = Backbone.$
 
-localCache = {}
-
 # zepto getScript converted to coffeescript
 # http://stackoverflow.com/questions/8556465/whats-the-zepto-equivalent-of-jquery-getscript
 $.getScript = (url, success, error)->

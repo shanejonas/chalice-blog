@@ -1,3 +1,4 @@
+require('./override')
 API = require './api'
 auth = require './basic-auth'
 

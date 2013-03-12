@@ -17,14 +17,7 @@ class LoginView extends Backbone.A.View
     super
 
   events:
-    # stupid form submit isnt working
-    # 'form submit': 'onSubmit'
-    'click #submit': 'onSubmit'
-    'keyup input': 'checkEnter'
-
-  checkEnter: (e)->
-    if event.keyCode is 13
-      @onSubmit(e)
+    'submit form': 'onSubmit'
 
   onSubmit: (e)->
     @errors = []
