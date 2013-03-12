@@ -1,5 +1,4 @@
 Backbone = require 'backbone'
-# if Backbone.isServer then API = require '../../api'
 
 class PostModel extends Backbone.Model
 

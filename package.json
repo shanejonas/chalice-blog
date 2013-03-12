@@ -10,10 +10,7 @@
   "appOptions": {
     "entry": "./src/bootstrap.coffee",
     "mount": "/application.js",
-    "watch": true,
-    "ignore": [
-      "./api"
-    ]
+    "watch": true
   },
   "dependencies": {
     "anatomy": "git://github.com/shanejonas/anatomy.git#develop",
@@ -22,7 +19,6 @@
     "hogan.js": "~2.0.0",
     "underscore.string": "~2.3.1",
     "mongo-model": "~0.3.4",
-    "basic-auth": "0.0.1",
     "marked": "~0.2.8",
     "highlight": "~0.2.3",
     "moment": "~2.0.0"
