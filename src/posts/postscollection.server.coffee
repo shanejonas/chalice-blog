@@ -1,13 +1,12 @@
 API = require '../../api'
-PostModel = require './postmodel'
-
-PostModel::sync = (method, model, options)->
+PostsCollection = require './postscollection'
+PostsCollection::sync = (method, model, options)->
   switch method
     when "create"
       API.createPost @toJSON(), (err, resp)->
         options.success model, resp, options
     when "read"
-      resp = API.getPostsBySlug @get('slug'), (err, resp)->
+      resp = API.getPosts (err, resp)->
         options.success model, resp, options
     when "update"
       resp = API.updatePost @get('slug'), @toJSON(), (err, resp)->
@@ -15,3 +14,4 @@ PostModel::sync = (method, model, options)->
     when "delete"
       resp = API.deletePost @get('slug'), (err, resp)->
         options.success model, resp, options
+
