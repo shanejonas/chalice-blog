@@ -63,25 +63,22 @@ class Application extends Backbone.Router
       view = new EditPostView
         model: post
         uniqueName: 'edit_post'
-      @fetcher
-        context: post
-        callback: => @swap view
+      @fetcher context: post
+      @swap view
 
   postBySlug: (slug) ->
     post = @posts.getOrMake slug
     view = new PostView
       model: post
       uniqueName: 'post_by_id_view'
-    @fetcher
-      context: post
-      callback: => @swap view
+    @fetcher context: post
+    @swap view
 
   allPosts: ->
     view = new PostsView
       collection: @posts
       uniqueName: 'posts_view'
-    @fetcher
-      context: @posts
-      callback: => @swap view
+    @fetcher context: @posts
+    @swap view
 
 module.exports = Application

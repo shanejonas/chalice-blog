@@ -6,17 +6,15 @@ module.exports = (req, res, next)->
   header = req.headers['authorization'] or ''
   token = header.split(/\s+/).pop() or ''
   auth = new Buffer(token, 'base64').toString()
-  parts = auth.split(/:/)
-  creds =
-    username: parts[0]
-    password: parts[1]
+  [username, password] = auth.split(/:/)
+  creds = {username, password}
   for account in config.accounts
-    [username, password] = account.split ':'
-    if creds.username is username and creds.password is password
+    [user, pass] = account.split ':'
+    if creds.username is user and creds.password is pass
       if req.url is '/api/login'
-        res.send({logged_in: yes, username: username})
+        res.send({logged_in: yes, username: user})
       else
         next()
     else
-      res.send 401
+      res.send 401, 'Username and password do not match.'
 
