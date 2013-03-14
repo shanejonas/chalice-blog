@@ -1,12 +1,13 @@
 Backbone = require 'backbone'
 $ = Backbone.$
-template = require './post.mustache'
+template = require './post.hbs'
 _ = require 'underscore'
 _.str = require 'underscore.string'
 _.mixin _.str.exports()
 moment = require 'moment'
+View = require 'anatomy-view'
 
-class PostView extends Backbone.A.View
+class PostView extends View
 
   className: "PostView"
 

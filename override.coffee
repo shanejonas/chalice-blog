@@ -1,2 +1,2 @@
-require './src/post/postmodel.server'
-require './src/posts/postscollection.server'
+require './src/post/postmodel_server'
+require './src/posts/postscollection_server'

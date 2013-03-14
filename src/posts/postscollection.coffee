@@ -1,5 +1,5 @@
 Backbone = require 'backbone'
-PostModel = require '../post/postmodel'
+PostModel = require '../post/postmodel.coffee'
 
 class PostsCollection extends Backbone.Collection
 

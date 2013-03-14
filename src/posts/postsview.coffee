@@ -1,10 +1,11 @@
 Backbone = require 'backbone'
 $ = Backbone.$
-template = require './posts.mustache'
-post = require '../post/post.mustache'
-Post = require '../post/postview'
+template = require './posts.hbs'
+post = require '../post/post.hbs'
+Post = require '../post/postview.coffee'
+CompositeView = require 'anatomy-compositeview'
 
-class PostsView extends Backbone.A.CompositeView
+class PostsView extends CompositeView
 
   className: 'PostsView'
 

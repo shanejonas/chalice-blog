@@ -1,15 +1,15 @@
 Backbone = require 'backbone'
 $ = Backbone.$
-if not Backbone.isServer? then require 'anatomy/anatomy_client'
-PostsView = require '../posts/postsview'
-PostView = require '../post/postview'
-PostsCollection = require '../posts/postscollection'
-PostModel = require '../post/postmodel'
-EditPostView = require '../post/editpostview'
-NavBarView = require '../navbar/navbarview'
-LoginView = require '../login/loginview'
+if not Backbone.isServer? then require 'anatomy-client'
+PostsView = require '../posts/postsview.coffee'
+PostView = require '../post/postview.coffee'
+PostsCollection = require '../posts/postscollection.coffee'
+PostModel = require '../post/postmodel.coffee'
+EditPostView = require '../post/editpostview.coffee'
+NavBarView = require '../navbar/navbarview.coffee'
+LoginView = require '../login/loginview.coffee'
 
-config = require './config'
+config = require './config.coffee'
 
 class Application extends Backbone.Router
 

@@ -1,9 +1,10 @@
 Backbone = require 'backbone'
 $ = Backbone.$
-template = require './navbar.mustache'
+template = require './navbar.hbs'
 _ = require 'underscore'
+View = require 'anatomy-view'
 
-class NavBarView extends Backbone.A.View
+class NavBarView extends View
 
   className: "NavBarView"
 
