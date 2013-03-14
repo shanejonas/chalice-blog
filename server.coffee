@@ -20,7 +20,6 @@ index = require './index.html.hbs'
 require('anatomy-server')(app, index)
 
 Backbone = require 'backbone'
-console.log Backbone.isServer
 
 require('./src/bootstrap')
 
