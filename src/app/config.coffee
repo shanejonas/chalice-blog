@@ -1,5 +1,4 @@
 module.exports =
-  appRoutePrefix: '/posts'
   navigationItems: [
       name: 'Home', url: '/'
     ,

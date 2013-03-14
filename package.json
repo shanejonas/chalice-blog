@@ -3,17 +3,8 @@
   "version": "0.0.0",
   "description": "Holy Grail blog app",
   "main": "index.js",
-  "scripts": {
-    "start": "./node_modules/.bin/anatomy"
-  },
   "author": "Shane Jonas",
-  "appOptions": {
-    "entry": "./src/bootstrap.coffee",
-    "mount": "/application.js",
-    "watch": true
-  },
   "dependencies": {
-    "anatomy": "git://github.com/shanejonas/anatomy.git#develop",
     "backbone": "~0.9.10",
     "underscore": "~1.4.4",
     "hogan.js": "~2.0.0",
@@ -21,6 +12,20 @@
     "mongo-model": "~0.3.4",
     "marked": "~0.2.8",
     "highlight": "~0.2.3",
-    "moment": "~2.0.0"
+    "moment": "~2.0.0",
+    "express": "~3.1.0",
+    "anatomy-shared": "0.0.1",
+    "anatomy-server": "0.0.1",
+    "anatomy-compositeview": "0.0.1",
+    "anatomy-view": "0.0.1",
+    "anatomy-client": "0.0.1"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-browserify2": "~0.1.1",
+    "grunt-contrib-coffee": "~0.6.0",
+    "grunt-contrib-clean": "~0.4.0",
+    "handleify": "~0.1.1",
+    "coffeeify": "0.0.0"
   }
 }

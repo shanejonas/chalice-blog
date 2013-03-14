@@ -1,18 +1,19 @@
 Backbone = require 'backbone'
 $ = Backbone.$
-template = require './editpost.mustache'
+template = require './editpost.hbs'
 _ = require 'underscore'
 _.str = require 'underscore.string'
 _.mixin _.str.exports()
+View = require 'anatomy-view'
 
 if not Backbone.isServer
-  FetchCodemirror = require '../commands/fetchcodemirror'
+  FetchCodemirror = require '../commands/fetchcodemirror.coffee'
   toMarkdown = require('../../vendor/tomarkdown').toMarkdown
   Marked = require 'marked'
   Marked.setOptions highlight: (code, lang)->
     require('../../vendor/highlight').highlightAuto(code).value
 
-class EditPostView extends Backbone.A.View
+class EditPostView extends View
 
   className: "EditPostView"
 
