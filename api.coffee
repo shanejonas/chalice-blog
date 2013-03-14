@@ -1,3 +1,4 @@
+# could set up a post commit hook for github and sync markdown files
 Model = require('mongo-model')
 _ = require 'underscore'
 _.str = require 'underscore.string'

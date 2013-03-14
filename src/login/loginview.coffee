@@ -1,12 +1,13 @@
 Backbone = require 'backbone'
 $ = Backbone.$
 require '../../vendor/backbone.basicauth'
-template = require './login.mustache'
+template = require './login.hbs'
 _ = require 'underscore'
 _.str = require 'underscore.string'
 _.mixin _.str.exports()
+View = require 'anatomy-view'
 
-class LoginView extends Backbone.A.View
+class LoginView extends View
 
   className: "LoginView"
 

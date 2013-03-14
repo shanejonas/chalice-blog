@@ -1,5 +1,5 @@
 API = require '../../api'
-PostsCollection = require './postscollection'
+PostsCollection = require './postscollection.coffee'
 PostsCollection::sync = (method, model, options)->
   switch method
     when "create"
