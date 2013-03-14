@@ -1,7 +1,8 @@
 #### To Run:
 ```
   npm install
-  npm start
+  npm install -g grunt-cli
+  grunt
 ```
 
 ---
