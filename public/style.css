@@ -10,6 +10,17 @@ img {
   max-width: 100%
 }
 
+/**
+  * @name NavBarView
+  * @description Stick Navigation Header.
+  *
+  * @markup
+  *   <div class="NavBarView">
+  *     <nav>
+  *       <a href="#">Home</a>
+  *       <a href="#">About</a>
+  *   </div>
+  */
 .NavBarView {
   /* prevent chrome from painting sticky bar*/
   -webkit-backface-visibility: hidden;
@@ -20,6 +31,17 @@ img {
   background: white;
   font-size: 17pt;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

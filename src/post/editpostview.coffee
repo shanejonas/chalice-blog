@@ -42,6 +42,7 @@ class EditPostView extends View
     @vim = no
     @lines = no
     super
+    @model.on 'change', @render, @
 
   submit: (e)->
     e.preventDefault()
@@ -81,13 +82,45 @@ class EditPostView extends View
   serialize: ->
     title: (@$ "input[name='title']").val()
     body: Marked(@editor.getValue())
+    type: (@$ "select[name='type']").val()
+
+  types: [
+      type: 'article'
+      title: 'Article'
+    ,
+      type: 'video'
+      title: 'Video'
+    ,
+      type: 'audio'
+      title: 'Audio'
+    ,
+      type: 'image'
+      title: 'Image'
+    ,
+      type: 'link'
+      title: 'Link'
+    ,
+      type: 'page'
+      title: 'Page'
+  ]
+
+  # select the right type for option/select
+  allTheRightType: ->
+    if @model?
+      for type in @types
+        if type.type is @model.get('type')
+          type.selected = yes
+          break
+    else
+      @types[0].selected = yes
 
   getTemplateData: ->
+    @allTheRightType()
     body = toMarkdown(@model?.get('body') or '')
     _.extend @model?.toJSON() or {},
       url: @model?.url()
       body: body
-      tags: @model?.get('tags')?.join(',')
+      types: @types
 
   template: template
 
