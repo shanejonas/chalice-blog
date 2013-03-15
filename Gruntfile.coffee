@@ -9,7 +9,8 @@ module.exports = (grunt)->
 
   @initConfig
     clean:
-      build: ['public/application.js', 'public/docs/']
+      build: ['public/application.js']
+      docs: ['public/docs']
     DSS:
       docs:
         files:
@@ -30,5 +31,6 @@ module.exports = (grunt)->
   @loadNpmTasks 'grunt-browserify2'
   @loadNpmTasks 'DSS'
 
-  @registerTask 'default', ['clean', 'browserify2:dev']
+  @registerTask 'default', ['clean:build', 'browserify2:dev']
   @registerTask 'build', ['clean', 'DSS', 'browserify2:build']
+  @registerTask 'docs', ['clean:docs', 'DSS']

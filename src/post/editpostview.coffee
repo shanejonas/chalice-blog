@@ -42,7 +42,7 @@ class EditPostView extends View
     @vim = no
     @lines = no
     super
-    @model.on 'change', @render, @
+    @model?.on 'change', @render, @
 
   submit: (e)->
     e.preventDefault()
