@@ -85,6 +85,7 @@ class Application extends Backbone.Router
   postBySlug: (slug) ->
     post = @posts.getOrMake slug
     view = new PostView
+      session: @session
       model: post
       uniqueName: 'post_by_id_view'
     @fetcher post

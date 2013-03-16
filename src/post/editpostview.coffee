@@ -5,6 +5,7 @@ _ = require 'underscore'
 _.str = require 'underscore.string'
 _.mixin _.str.exports()
 View = require 'anatomy-view'
+PostView = require './postview.coffee'
 
 if not Backbone.isServer
   FetchCodemirror = require '../commands/fetchcodemirror.coffee'
@@ -18,14 +19,29 @@ class EditPostView extends View
   className: "EditPostView"
 
   events:
+    'keyup': 'debounceCompile'
+    'change select': 'debounceCompile'
     'submit form': 'submit'
     'click .toggleVim': 'toggleVim'
     'click .toggleLines': 'toggleLines'
 
+  debounceCompile: _.debounce ->
+    @compileMarkdown()
+  , 200
+
   compileMarkdown: ->
-    markdown = @editor.getValue()
-    result = Marked(markdown)
-    @$('.preview').html result
+    data = @serialize()
+    data.slug = _.slugify data.title
+    if @previewModel? then @previewModel.set data
+    if @previewView then @previewView.remove()
+    if not @model and @collection?
+      @previewModel ?= new @collection.model data
+    else
+      @previewModel ?= new @model.constructor data
+    @previewView ?= new PostView
+      model: @previewModel
+    @$('.preview').html @previewView.toHTML()
+    @previewView.attach()
 
   toggleVim: (e)->
     if @vim
@@ -61,10 +77,9 @@ class EditPostView extends View
       @editor ?= CodeMirror.fromTextArea @$("textarea")[0],
         mode: 'markdown'
         lineNumbers: @lines
+        lineWrapping: yes
         theme: "solarized dark"
         extraKeys: "Enter": "newlineAndIndentContinueMarkdownList"
-        onKeyEvent: (editor, e)=>
-          if e.type is 'keyup' then @compileMarkdown()
       @compileMarkdown()
 
   loadCodeMirror: ->
@@ -83,6 +98,7 @@ class EditPostView extends View
     title: (@$ "input[name='title']").val()
     body: Marked(@editor.getValue())
     type: (@$ "select[name='type']").val()
+    media: (@$ "input[name='media']").val()
 
   types: [
       type: 'article'
@@ -123,5 +139,11 @@ class EditPostView extends View
       types: @types
 
   template: template
+
+  remove: ->
+    @previewView.remove()
+    @previewModel = null
+    @model?.off null, null, this
+    super
 
 module.exports = EditPostView
