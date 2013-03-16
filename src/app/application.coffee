@@ -1,15 +1,15 @@
 Backbone = require 'backbone'
 $ = Backbone.$
+_ = require 'underscore'
 if not Backbone.isServer? then require 'anatomy-client'
 PostsView = require '../posts/postsview.coffee'
 PostView = require '../post/postview.coffee'
 PostsCollection = require '../posts/postscollection.coffee'
+PagesCollection = require '../posts/pagescollection.coffee'
 PostModel = require '../post/postmodel.coffee'
 EditPostView = require '../post/editpostview.coffee'
 NavBarView = require '../navbar/navbarview.coffee'
 LoginView = require '../login/loginview.coffee'
-
-config = require './config.coffee'
 
 class Application extends Backbone.Router
 
@@ -17,9 +17,24 @@ class Application extends Backbone.Router
 
   getNavigationView: ->
     new NavBarView
-      collection: new Backbone.Collection config.navigationItems
+      collection: @pages
+
+  # multi fetcher for navCollection
+  fetcher: (contexts, callback)->
+    if not _(contexts).isArray()
+      if contexts
+        contexts = [contexts]
+      else
+        contexts = []
+    if @firstBoot and @pages isnt contexts[0] or @pages isnt contexts[0]?.collection
+      contexts.push @pages
+    cb = _.after contexts.length, =>
+      @trigger 'doneFetch'
+      callback?()
+    context.fetch(success: cb) for context in contexts
 
   initialize: ->
+    @pages = new PagesCollection
     @appView.addView @getNavigationView()
     data = window?.Data or []
     @posts = new PostsCollection data
@@ -31,6 +46,7 @@ class Application extends Backbone.Router
     'new': 'newPost'
     'posts/:slug/edit': 'editPost'
     'posts/:slug': 'postBySlug'
+    'pages/:slug': 'pageBySlug'
     'posts': 'allPosts'
     'login': 'login'
 
@@ -46,8 +62,8 @@ class Application extends Backbone.Router
       message: msg
       uniqueName: 'login_view'
       cb: cb
+    @fetcher()
     @swap view
-    @trigger 'doneFetch'
 
   newPost: ->
     @auth =>
@@ -55,7 +71,7 @@ class Application extends Backbone.Router
         collection: @posts
         uniqueName: 'new_post'
       @swap view
-      @trigger 'doneFetch'
+      @fetcher()
 
   editPost: (slug) ->
     @auth =>
@@ -63,7 +79,7 @@ class Application extends Backbone.Router
       view = new EditPostView
         model: post
         uniqueName: 'edit_post'
-      @fetcher context: post
+      @fetcher post
       @swap view
 
   postBySlug: (slug) ->
@@ -71,14 +87,22 @@ class Application extends Backbone.Router
     view = new PostView
       model: post
       uniqueName: 'post_by_id_view'
-    @fetcher context: post
+    @fetcher post
+    @swap view
+
+  pageBySlug: (slug) ->
+    page = @pages.getOrMake slug
+    view = new PostView
+      model: page
+      uniqueName: 'page_by_id_view'
+    @fetcher page
     @swap view
 
   allPosts: ->
     view = new PostsView
       collection: @posts
       uniqueName: 'posts_view'
-    @fetcher context: @posts
+    @fetcher @posts
     @swap view
 
 module.exports = Application

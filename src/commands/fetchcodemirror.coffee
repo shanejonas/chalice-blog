@@ -27,7 +27,4 @@ module.exports = (callback)->
 
     # load the rest
     for file in files
-      $.getScript file, (data)->
-         console.log(data)
-         console.log('Load was performed.')
-         cb?()
+      $.getScript file, (data)-> cb?()
