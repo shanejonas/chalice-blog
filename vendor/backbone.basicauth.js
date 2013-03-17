@@ -34,7 +34,6 @@ Backbone.BasicAuth = {
       _.extend(options.headers, { 'Authorization': 'Basic ' + token });
       return originalSync.call(model, method, model, options);
     };
-    console.log('override backbone sync', Backbone.sync)
   },
 
   // Clear Basic Authentication for all future requests

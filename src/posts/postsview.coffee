@@ -13,7 +13,7 @@ class PostsView extends CompositeView
 
   toHTML: ->
     @getViews()
-    if @views.length > 0 then super else @wrap "No Posts."
+    if @views.length > 0 then super else @wrap "Loading..."
 
   template: template
 

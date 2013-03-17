@@ -1,13 +1,28 @@
 <button class="toggleVim">Toggle Vim</button>
 <button class="toggleLines">Toggle Lines</button>
 <form id="form" action="{{url}}" method="post">
-  <label>Title:</label>
-  <input name="title" value="{{title}}"/>
-  <input type="hidden" name="fromform" value="yes"/>
+  <div>
+    <label>Title:</label>
+    <input name="title" value="{{title}}"/>
+  </div>
+  <div>
+    <input type="hidden" name="fromform" value="yes"/>
+  <div>
+    <label>Type:</label>
+    <select name="type">
+      {{#types}}
+      <option value="{{type}}" {{#selected}}selected{{/selected}}>{{title}}</option>
+      {{/types}}
+    </select>
+  </div>
+  <div>
+    <label>Media src:</label>
+    <input name="media" value="{{media}}"/>
+  </div>
   <label>Body:</label>
   <textarea name="body">{{body}}</textarea>
   <input id="submit" type="submit" value="Submit"/>
 </form>
 
-<section class="preview">
-</section>
+<div class="preview">
+</div>

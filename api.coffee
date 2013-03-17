@@ -37,10 +37,11 @@ module.exports =
 
   getPosts: (callback)->
     Post.find().sort(updated_at: -1).all (err, posts) ->
+      posts = _(posts).filter (post)-> post.type isnt 'page'
       if err then callback err
       else callback null, clean posts
 
-  getPostsBySlug: (slug, callback)->
+  getPostBySlug: (slug, callback)->
     if _(slug).isArray() then [slug] = slug
     Post.first {slug}, (err, post) ->
       if err then callback err
@@ -49,3 +50,8 @@ module.exports =
           callback 'Post not found.'
         else
           callback null, clean post
+
+  getPages: (callback)->
+    Post.find({type: 'page'}).sort(updated_at: -1).all (err, posts) ->
+      if err then callback err
+      else callback null, clean posts
