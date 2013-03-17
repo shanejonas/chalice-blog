@@ -7,7 +7,7 @@ PostModel::sync = (method, model, options)->
       API.createPost @toJSON(), (err, resp)->
         options.success model, resp, options
     when "read"
-      resp = API.getPostsBySlug @get('slug'), (err, resp)->
+      resp = API.getPostBySlug @get('slug'), (err, resp)->
         options.success model, resp, options
     when "update"
       resp = API.updatePost @get('slug'), @toJSON(), (err, resp)->

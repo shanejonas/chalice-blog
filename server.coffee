@@ -60,24 +60,30 @@ updatePost = (req, res)->
       else
         res.send post
 
-getAllPosts = (req, res)->
+getPosts = (req, res)->
   API.getPosts (err, posts)->
     if err then res.send 404
     else res.send posts
 
-getPostsBySlug = (req, res)->
-  API.getPostsBySlug req.params.slug, (err, post)->
+getPostBySlug = (req, res)->
+  API.getPostBySlug req.params.slug, (err, post)->
     if err then res.send 404, 'Post not found'
     else res.send post
+
+getPages = (req, res)->
+  API.getPages (err, posts)->
+    if err then res.send 404
+    else res.send posts
 
 app.post '/api/login', auth
 app.delete '/api/posts/slug', auth, deletePost
 app.put '/api/posts/:slug', auth, updatePost
 app.post '/api/posts/:slug', auth, createPost
 app.post '/api/posts', auth, createPost
-app.get '/api/posts', getAllPosts
-app.get '/api/posts/:slug', getPostsBySlug
+app.get '/api/posts', getPosts
+app.get '/api/posts/:slug', getPostBySlug
+app.get '/api/pages', getPages
+app.get '/api/pages/:slug', getPostBySlug
 
-app.listen 3000
-
+app.listen(3000)
 module.exports = app
