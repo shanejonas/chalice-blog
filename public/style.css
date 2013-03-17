@@ -30,4 +30,5 @@ img {
   height: 35px;
   background: white;
   font-size: 17pt;
+  z-index: 3;
 }

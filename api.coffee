@@ -52,6 +52,6 @@ module.exports =
           callback null, clean post
 
   getPages: (callback)->
-    Post.find({type: 'page'}).all (err, posts) ->
+    Post.find({type: 'page'}).sort(updated_at: -1).all (err, posts) ->
       if err then callback err
       else callback null, clean posts

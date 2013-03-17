@@ -69,6 +69,7 @@ class Application extends Backbone.Router
     @auth =>
       view = new EditPostView
         collection: @posts
+        pages: @pages
         uniqueName: 'new_post'
       @swap view
       @fetcher()

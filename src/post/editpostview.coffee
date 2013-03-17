@@ -59,14 +59,19 @@ class EditPostView extends View
     @lines = no
     super
     @model?.on 'change', @render, @
+    @pages = @options.pages
 
   submit: (e)->
     e.preventDefault()
     attrs = @serialize()
     attrs.slug = _.slugify attrs.title
+    if attrs.type is 'page'
+      coll = @pages
+    else
+      coll = @collection
     if not @model and @collection?
       @model = new @collection.model
-      @collection.add @model, at: 0
+      coll.add @model, at: 0
     @model.set attrs
     @model.save()
     Backbone.history.navigate "/posts/#{@model.get('slug')}", trigger: yes

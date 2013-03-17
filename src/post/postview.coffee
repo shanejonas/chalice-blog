@@ -48,17 +48,6 @@ class PostView extends View
 
   remove: ->
     @session = null
-    @$('video')[0]?.pause()?.remove()
-    @$('autio')[0]?.pause()?.remove()
     super
-
-  render: (force=no)->
-    elExists = @elementExistsInDom()
-    if force then @_shouldRedraw = yes
-    if elExists then @attach()
-    @$el.html @toHTML not @elementExistsInDom() or force
-    if not elExists then @attach()
-    @_shouldRedraw = no
-    this
 
 module.exports = PostView
