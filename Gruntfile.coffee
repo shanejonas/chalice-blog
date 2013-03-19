@@ -11,10 +11,12 @@ module.exports = (grunt)->
     clean:
       build: ['public/application.js']
       docs: ['public/docs']
-    DSS:
+    dss:
       docs:
+        options:
+          template: './dss/'
         files:
-          'public/docs/': 'public/style.css'
+          'public/docs/': 'stylesheets/**/*.styl'
     browserify2:
       dev:
         entry: './src/bootstrap.coffee'
@@ -26,12 +28,21 @@ module.exports = (grunt)->
         entry: './src/bootstrap.coffee'
         compile: './public/application.js'
         beforeHook: beforeHook
+    stylus:
+      dev:
+        debug: yes
+        files:
+          'public/style.css': 'stylesheets/**/*.styl'
+      build:
+        files:
+          'public/style.css': 'stylesheets/**/*.styl'
 
   @loadNpmTasks 'grunt-contrib-clean'
   @loadNpmTasks 'grunt-browserify2'
   @loadNpmTasks 'grunt-devtools'
-  @loadNpmTasks 'DSS'
+  @loadNpmTasks 'grunt-contrib-stylus'
+  @loadNpmTasks 'grunt-dss'
 
-  @registerTask 'default', ['clean:build', 'browserify2:dev']
-  @registerTask 'build', ['clean', 'DSS', 'browserify2:build']
-  @registerTask 'docs', ['clean:docs', 'DSS']
+  @registerTask 'default', ['clean:build', 'stylus:dev', 'browserify2:dev']
+  @registerTask 'build', ['clean', 'dss', 'browserify2:build']
+  @registerTask 'docs', ['clean:docs', 'dss']
