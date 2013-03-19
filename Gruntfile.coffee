@@ -29,6 +29,7 @@ module.exports = (grunt)->
 
   @loadNpmTasks 'grunt-contrib-clean'
   @loadNpmTasks 'grunt-browserify2'
+  @loadNpmTasks 'grunt-devtools'
   @loadNpmTasks 'DSS'
 
   @registerTask 'default', ['clean:build', 'browserify2:dev']

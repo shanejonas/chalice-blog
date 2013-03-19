@@ -2,6 +2,6 @@
 --compilers coffee:coffee-script
 --require should
 --ui bdd
+--reporter spec
 --colors
 --growl
---watch

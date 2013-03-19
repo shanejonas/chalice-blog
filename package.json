@@ -16,8 +16,8 @@
     "express": "~3.1.0",
     "anatomy-shared": "0.0.1",
     "anatomy-server": "0.0.1",
-    "anatomy-compositeview": "0.0.1",
-    "anatomy-view": "0.0.1",
+    "anatomy-compositeview": "0.0.2",
+    "anatomy-view": "0.0.2",
     "anatomy-client": "0.0.1"
   },
   "devDependencies": {
@@ -28,6 +28,8 @@
     "handleify": "~0.1.1",
     "coffeeify": "0.0.0",
     "should": "~1.2.2",
-    "mocha": "~1.8.2"
+    "mocha": "~1.8.2",
+    "grunt-devtools": "~0.1.0-7",
+    "cheerio": "~0.10.8"
   }
 }
