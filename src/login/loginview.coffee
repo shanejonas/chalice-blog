@@ -15,7 +15,8 @@ class LoginView extends View
     @errors = options.errors or []
     @cb = options.cb
     if options.message then @errors.push @options.message
-    super
+
+  template: template
 
   events:
     'submit form': 'onSubmit'
@@ -51,6 +52,5 @@ class LoginView extends View
       oldLogin: @oldLogin
     }
 
-  template: template
 
 module.exports = LoginView

@@ -1,16 +1,16 @@
-Backbone = require 'backbone'
-$ = Backbone.$
-template = require './navbar.hbs'
-_ = require 'underscore'
 View = require 'anatomy-view'
+template = require './navbar.hbs'
 
-class NavBarView extends View
+class NavbarView extends View
+
+  initialize: ->
+    @collection?.on 'reset', @render, @
 
   className: "NavBarView"
 
   template: template
 
   getTemplateData: ->
-    items: @collection.toJSON()
+    items: @collection?.toJSON()
 
-module.exports = NavBarView
+module.exports = NavbarView

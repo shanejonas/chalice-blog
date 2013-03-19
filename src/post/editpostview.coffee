@@ -40,8 +40,7 @@ class EditPostView extends View
       @previewModel ?= new @model.constructor data
     @previewView ?= new PostView
       model: @previewModel
-    @$('.preview').html @previewView.toHTML()
-    @previewView.attach()
+    @$('.preview').html @previewView.render().el
 
   toggleVim: (e)->
     if @vim
@@ -79,7 +78,7 @@ class EditPostView extends View
   initCodeMirror: ->
     area = (@$ "textarea")[0]
     if area
-      @editor ?= CodeMirror.fromTextArea @$("textarea")[0],
+      @editor ?= CodeMirror.fromTextArea area,
         mode: 'markdown'
         lineNumbers: @lines
         lineWrapping: yes
@@ -88,14 +87,15 @@ class EditPostView extends View
       @compileMarkdown()
 
   loadCodeMirror: ->
-    if window?.loadedCodeMirror
-      @initCodeMirror()
-    else
-      FetchCodemirror =>
-        window?.loadedCodeMirror = yes
+    if Backbone.$
+      if window?.loadedCodeMirror
         @initCodeMirror()
+      else
+        FetchCodemirror =>
+          window?.loadedCodeMirror = yes
+          @initCodeMirror()
 
-  attach: ->
+  afterRender: ->
     super
     @loadCodeMirror()
 
