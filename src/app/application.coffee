@@ -1,7 +1,7 @@
 Backbone = require 'backbone'
 $ = Backbone.$
 _ = require 'underscore'
-if not Backbone.isServer? then require 'anatomy-client'
+if Backbone.$? then require 'anatomy-client'
 PostsView = require '../posts/postsview.coffee'
 PostView = require '../post/postview.coffee'
 PostsCollection = require '../posts/postscollection.coffee'
@@ -10,13 +10,19 @@ PostModel = require '../post/postmodel.coffee'
 EditPostView = require '../post/editpostview.coffee'
 NavBarView = require '../navbar/navbarview.coffee'
 LoginView = require '../login/loginview.coffee'
+CompositeView = require 'anatomy-compositeview'
 
 class Application extends Backbone.Router
 
   uniqueName: 'app'
 
+  getAppView: ->
+    new CompositeView
+      uniqueName: 'app'
+
   getNavigationView: ->
     new NavBarView
+      uniqueName: 'navbar'
       collection: @pages
 
   # multi fetcher for navCollection
@@ -34,9 +40,21 @@ class Application extends Backbone.Router
     context.fetch(success: cb) for context in contexts
 
   initialize: ->
-    @pages = new PagesCollection
+    # initialize embedded page data
+    pages = []
+    if window?.NavigationItems
+      pages = window.NavigationItems
+      window.NavigationItems = null
+    @pages = new PagesCollection pages
     @appView.addView @getNavigationView()
-    data = window?.Data or []
+
+    data = if _(window?.Data).isArray()
+      window.Data
+    else if _(window?.Data).isObject()
+      [window.Data]
+    else
+      []
+    window?.Data = null
     @posts = new PostsCollection data
     @session = new Backbone.Model
     this

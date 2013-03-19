@@ -26,10 +26,10 @@ class PostView extends View
   getUniqueName: ->
     @model.get('slug')
 
-  attach: ->
+  initialize: ->
+    @session?.on 'change', @render, @
+    @model?.on 'change', @render, @
     super
-    @session?.off(null, null, this).on 'change', (=> @render(yes)), @
-    @model.off(null, null, this).on 'change', (=> @render(yes)), @
 
   getTemplateData: ->
     _.extend @model?.toJSON(),
@@ -49,5 +49,10 @@ class PostView extends View
   remove: ->
     @session = null
     super
+
+  # render: ->
+  #   @_ensureElement()
+  #   if not Backbone.$? then return this
+  #   super
 
 module.exports = PostView
