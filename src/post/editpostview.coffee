@@ -57,7 +57,6 @@ class EditPostView extends View
     @vim = no
     @lines = no
     super
-    @model?.on 'change', @render, @
     @pages = @options.pages
 
   submit: (e)->
@@ -97,6 +96,7 @@ class EditPostView extends View
 
   afterRender: ->
     super
+    @model?.on 'change', => @render()
     @loadCodeMirror()
 
   serialize: ->
