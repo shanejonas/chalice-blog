@@ -1,6 +1,8 @@
-<nav>
-  <a href="/">Home</a>
-  {{#items}}
-    <a href="/pages/{{slug}}">{{title}}</a>
-  {{/items}}
-</nav>
+<section class="container">
+	<nav>
+	  <a href="/" class="home"><span data-title="Home">Home</span></a>
+	  {{#items}}
+	    <a href="/pages/{{slug}}" title="{{title}}"><span data-title="{{title}}">{{title}}</span></a>
+	  {{/items}}
+	</nav>
+</section>
