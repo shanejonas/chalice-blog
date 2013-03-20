@@ -1,17 +1,19 @@
-<article>
-  {{#if parent}}
-    <a href="{{url}}">
+<section class="container">
+  <article>
+    {{#if parent}}
+      <h1>
+        <a href="{{url}}">{{title}}</a>
+      </h1>
+    {{else}}
       <h1>{{title}}</h1>
-    </a>
-  {{else}}
-    <h1>{{title}}</h1>
-  {{/if}}
-  {{#logged_in}}
-    <a href="{{url}}/edit">Edit</a>
-  {{/logged_in}}
-  <span class="pubDate">{{pubDate}}</span>
-  {{#media}}
-    <img src="{{media}}"/>
-  {{/media}}
-  {{{body}}}
-</article>
+    {{/if}}
+    {{#logged_in}}
+      <a href="{{url}}/edit">Edit</a>
+    {{/logged_in}}
+    <span class="pubDate">{{pubDate}}</span>
+    {{#media}}
+      <img src="{{media}}"/>
+    {{/media}}
+    {{{body}}}
+  </article>
+</section>

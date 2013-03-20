@@ -1,6 +1,11 @@
-<nav>
-  <a href="/">Home</a>
-  {{#items}}
-    <a href="/pages/{{slug}}">{{title}}</a>
-  {{/items}}
-</nav>
+<section class="container">
+	<nav>
+	  <a href="/" class="home"><span data-title="Home">Home</span></a>
+	  <a href="/"><span data-title="About">About</span></a>
+	  <a href="/"><span data-title="Blog">Blog</span></a>
+	  <a href="/"><span data-title="Contact">Contact</span></a>
+	  {{#items}}
+	    <a href="/pages/{{slug}}" title="{{title}}"><span data-title="{{title}}">{{title}}</span></a>
+	  {{/items}}
+	</nav>
+</section>

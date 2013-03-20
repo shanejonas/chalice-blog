@@ -1,13 +1,15 @@
-<ul class="errors">
-  {{#errors}}
-    <li>{{.}}</li>
-  {{/errors}}
-</ul>
-<form id="form" action="/api/login" method="post">
-  <label>username</label>
-  <input name="username" value="{{oldLogin.username}}"/>
-  <label>password</label>
-  <input name="password" type="password" value="{{oldLogin.password}}"/>
-  <input type="hidden" name="fromform" value="yes">
-  <input id="submit" type="submit" value="Login"/>
-</form>
+<section class="container">
+	<ul class="errors">
+	  {{#errors}}
+	    <li>{{.}}</li>
+	  {{/errors}}
+	</ul>
+	<form id="form" action="/api/login" method="post">
+	  <label>Username</label>
+	  <input name="username" value="{{oldLogin.username}}"/>
+	  <label>Password</label>
+	  <input name="password" type="password" value="{{oldLogin.password}}"/>
+	  <input type="hidden" name="fromform" value="yes">
+	  <div class="submit" data-title="Login"><input id="submit" type="submit" value="Login"></div>
+	</form>
+</section>
