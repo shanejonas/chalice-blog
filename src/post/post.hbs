@@ -11,9 +11,9 @@
       <a href="{{url}}/edit">Edit</a>
     {{/logged_in}}
     <span class="pubDate">{{pubDate}}</span>
-    {{#media}}
+    {{#if media}}
       <img src="{{media}}"/>
-    {{/media}}
+    {{/if}}
     {{{body}}}
   </article>
 </section>

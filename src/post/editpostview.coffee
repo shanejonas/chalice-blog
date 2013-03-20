@@ -32,6 +32,7 @@ class EditPostView extends View
   compileMarkdown: ->
     data = @serialize()
     data.slug = _.slugify data.title
+    console.log data
     if @previewModel? then @previewModel.set data
     if @previewView then @previewView.remove()
     if not @model and @collection?

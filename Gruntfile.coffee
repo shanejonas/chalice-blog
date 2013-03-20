@@ -28,14 +28,14 @@ module.exports = (grunt)->
         entry: './src/bootstrap.coffee'
         compile: './public/application.js'
         beforeHook: beforeHook
-    # stylus:
-    #   dev:
-    #     debug: yes
-    #     files:
-    #       'public/style.css': 'stylesheets/**/*.styl'
-    #   build:
-    #     files:
-    #       'public/style.css': 'stylesheets/**/*.styl'
+    stylus:
+      dev:
+        debug: yes
+        files:
+          'public/style.css': 'stylesheets/**/*.styl'
+      build:
+        files:
+          'public/style.css': 'stylesheets/**/*.styl'
 
   @loadNpmTasks 'grunt-contrib-clean'
   @loadNpmTasks 'grunt-browserify2'
@@ -43,6 +43,6 @@ module.exports = (grunt)->
   @loadNpmTasks 'grunt-contrib-stylus'
   @loadNpmTasks 'grunt-dss'
 
-  @registerTask 'default', ['clean:build', 'browserify2:dev']
+  @registerTask 'default', ['clean:build', 'stylus:dev', 'browserify2:dev']
   @registerTask 'build', ['clean', 'dss', 'browserify2:build']
   @registerTask 'docs', ['clean:docs', 'dss']
