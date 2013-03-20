@@ -19,15 +19,11 @@ class EditPostView extends View
   className: "EditPostView"
 
   events:
-    'keyup': 'debounceCompile'
-    'change select': 'debounceCompile'
+    'keyup': 'compileMarkdown'
+    'change select': 'compileMarkdown'
     'submit form': 'submit'
     'click .toggleVim': 'toggleVim'
     'click .toggleLines': 'toggleLines'
-
-  debounceCompile: _.debounce ->
-    @compileMarkdown()
-  , 200
 
   compileMarkdown: ->
     data = @serialize()

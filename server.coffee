@@ -18,39 +18,7 @@ require.extensions['.hbs'] = (module, filename) ->
 index = require './index.html.hbs'
 
 # TODO: move this code into anatomy-server
-# require('anatomy-server')(app, index)
-Backbone = require 'backbone'
-Backbone.$ = null
-Backbone.isServer = yes
-
-require 'anatomy-shared'
-
-# Override the `route` function to bind to express instead.
-Backbone.Router::route = (route, name) ->
-  # Manually add the route to the beginning supersceding the rest of the
-  # already added routes.
-  app.get '/' + route, (req, res) =>
-    render = =>
-      model = @appView.views[1].model
-      collection = @appView.views[1].collection
-      template = index
-        markup: @appView.toHTML(yes)
-        navigationItems: JSON.stringify @appView.views[0].collection.toJSON()
-        model: JSON.stringify model or collection
-      res.end template
-    @off('doneFetch', render).on 'doneFetch', render
-    @[name] _.values(req.params)
-
-Backbone.Router::swap = (view)->
-  @oldView = @view if @view
-  @appView.removeView @oldView if @oldView
-  @view = view
-  @appView.addView view
-  @oldView = null
-  @firstBoot = no
-
-# end anatomy-server
-
+require('anatomy-server')(app, index)
 require('./src/bootstrap')
 
 # require server-specific code

@@ -14,7 +14,7 @@
     "moment": "~2.0.0",
     "express": "~3.1.0",
     "anatomy-shared": "0.0.1",
-    "anatomy-server": "0.0.1",
+    "anatomy-server": "0.0.2",
     "anatomy-compositeview": "0.0.2",
     "anatomy-view": "0.0.2",
     "anatomy-client": "0.0.1"
