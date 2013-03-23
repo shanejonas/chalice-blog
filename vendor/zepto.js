@@ -1563,5 +1563,3 @@ window.Zepto = Zepto
 
   testEl = null
 })(Zepto)
-
-module.exports = Zepto;

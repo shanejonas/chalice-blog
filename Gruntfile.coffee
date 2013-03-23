@@ -1,11 +1,14 @@
 handleify = require 'handleify'
 coffeeify = require 'coffeeify'
+shim = require 'browserify-shim'
 
 module.exports = (grunt)->
 
   beforeHook = (bundle)->
     bundle.transform coffeeify
     bundle.transform handleify
+    shim bundle,
+      zepto: path: './vendor/zepto', exports: 'Zepto'
 
   @initConfig
     clean:
