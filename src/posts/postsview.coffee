@@ -33,9 +33,4 @@ class PostsView extends CompositeView
 
   template: template
 
-  # render: ->
-  #   @_ensureElement()
-  #   if not Backbone.$? then return this
-  #   super
-
 module.exports = PostsView
