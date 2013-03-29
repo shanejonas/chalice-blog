@@ -1,5 +1,5 @@
 {
-  "name": "Holy_Blog",
+  "name": "chalice-blog",
   "version": "0.0.0",
   "description": "Holy Grail blog app",
   "main": "index.js",
