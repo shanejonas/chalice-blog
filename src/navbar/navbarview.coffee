@@ -1,4 +1,4 @@
-View = require 'anatomy-view'
+View = require 'chalice-view'
 template = require './navbar.hbs'
 
 class NavbarView extends View

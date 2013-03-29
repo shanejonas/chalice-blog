@@ -5,7 +5,7 @@ _ = require 'underscore'
 _.str = require 'underscore.string'
 _.mixin _.str.exports()
 moment = require 'moment'
-View = require 'anatomy-view'
+View = require 'chalice-view'
 
 templateTypes =
   audio: require './types/audio.hbs'

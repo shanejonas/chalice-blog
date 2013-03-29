@@ -17,8 +17,7 @@ require.extensions['.hbs'] = (module, filename) ->
 
 index = require './index.html.hbs'
 
-# TODO: move this code into anatomy-server
-require('anatomy-server')(app, index)
+require('chalice-server')(app, index)
 require('./src/bootstrap')
 
 # require server-specific code

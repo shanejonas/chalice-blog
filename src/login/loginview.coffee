@@ -5,7 +5,7 @@ template = require './login.hbs'
 _ = require 'underscore'
 _.str = require 'underscore.string'
 _.mixin _.str.exports()
-View = require 'anatomy-view'
+View = require 'chalice-view'
 
 class LoginView extends View
 

@@ -3,7 +3,7 @@ $ = Backbone.$
 template = require './posts.hbs'
 post = require '../post/post.hbs'
 Post = require '../post/postview.coffee'
-CompositeView = require 'anatomy-compositeview'
+CompositeView = require 'chalice-compositeview'
 
 class PostsView extends CompositeView
 

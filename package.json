@@ -13,11 +13,11 @@
     "marked": "~0.2.8",
     "moment": "~2.0.0",
     "express": "~3.1.0",
-    "anatomy-shared": "0.0.1",
-    "anatomy-server": "0.0.2",
-    "anatomy-compositeview": "0.0.2",
-    "anatomy-view": "0.0.2",
-    "anatomy-client": "0.0.1"
+    "chalice-shared": "0.0.1",
+    "chalice-server": "0.0.1",
+    "chalice-compositeview": "0.0.1",
+    "chalice-view": "0.0.1",
+    "chalice-client": "0.0.1"
   },
   "devDependencies": {
     "grunt": "~0.4.0",

@@ -36,7 +36,7 @@ module.exports =
       else callback null, clean _post
 
   getPosts: (callback)->
-    Post.find().sort(updated_at: -1).all (err, posts) ->
+    Post.find().sort(created_at: -1).all (err, posts) ->
       posts = _(posts).filter (post)-> post.type isnt 'page'
       if err then callback err
       else callback null, clean posts
@@ -52,6 +52,6 @@ module.exports =
           callback null, clean post
 
   getPages: (callback)->
-    Post.find({type: 'page'}).sort(updated_at: -1).all (err, posts) ->
+    Post.find({type: 'page'}).sort(created_at: -1).all (err, posts) ->
       if err then callback err
       else callback null, clean posts

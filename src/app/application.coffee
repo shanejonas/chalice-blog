@@ -1,7 +1,7 @@
 Backbone = require 'backbone'
 $ = Backbone.$
 _ = require 'underscore'
-if Backbone.$? then require 'anatomy-client'
+if Backbone.$? then require 'chalice-client'
 PostsView = require '../posts/postsview.coffee'
 PostView = require '../post/postview.coffee'
 PostsCollection = require '../posts/postscollection.coffee'
@@ -10,7 +10,7 @@ PostModel = require '../post/postmodel.coffee'
 EditPostView = require '../post/editpostview.coffee'
 NavBarView = require '../navbar/navbarview.coffee'
 LoginView = require '../login/loginview.coffee'
-CompositeView = require 'anatomy-compositeview'
+CompositeView = require 'chalice-compositeview'
 
 class Application extends Backbone.Router
 
