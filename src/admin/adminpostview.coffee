@@ -1,12 +1,9 @@
 Backbone = require 'backbone'
 $ = Backbone.$
-template = require './adminpostview.hbs'
 Post = require '../post/postview.coffee'
 _ = require 'underscore'
 
 class AdminPostView extends Post
-
-  template: template
 
   events:
     'click .button.edit': 'edit'
@@ -18,6 +15,8 @@ class AdminPostView extends Post
       parent: @options.parent
       pubDate: moment(@model.get('updated_at')).format("dddd, MMMM Do YYYY");
       logged_in: @session?.get('logged_in')
+      body: null
+      media: null
 
   delete: (e)->
     @model.destroy()

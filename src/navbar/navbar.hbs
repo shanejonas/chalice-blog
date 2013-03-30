@@ -4,5 +4,9 @@
 	  {{#items}}
 	    <a href="/pages/{{slug}}" title="{{title}}"><span data-title="{{title}}">{{title}}</span></a>
 	  {{/items}}
+    {{#logged_in}}
+      <a href="/admin" class="admin"><span data-title="Admin">Admin</span></a>
+      <a href="/new" class="new"><span data-title="New Post">New Post</span></a>
+    {{/logged_in}}
 	</nav>
 </section>

@@ -26,6 +26,7 @@ class Application extends Backbone.Router
     new NavBarView
       uniqueName: 'navbar'
       collection: @pages
+      session: @session
 
   # multi fetcher for navCollection
   fetcher: (contexts, callback)->
@@ -42,6 +43,7 @@ class Application extends Backbone.Router
     context.fetch(success: cb) for context in contexts
 
   initialize: ->
+    @session = new Backbone.Model
     # initialize embedded page data
     pages = []
     if window?.NavigationItems
@@ -58,7 +60,6 @@ class Application extends Backbone.Router
       []
     window?.Data = null
     @posts = new PostsCollection data
-    @session = new Backbone.Model
     this
 
   routes:
