@@ -7,6 +7,8 @@ PostView = require '../post/postview.coffee'
 PostsCollection = require '../posts/postscollection.coffee'
 PagesCollection = require '../posts/pagescollection.coffee'
 PostModel = require '../post/postmodel.coffee'
+AdminPostView = require '../admin/adminpostview.coffee'
+AdminPostsCollection = require '../admin/adminpostscollection.coffee'
 EditPostView = require '../post/editpostview.coffee'
 NavBarView = require '../navbar/navbarview.coffee'
 LoginView = require '../login/loginview.coffee'
@@ -67,8 +69,14 @@ class Application extends Backbone.Router
     'pages/:slug': 'pageBySlug'
     'posts': 'allPosts'
     'login': 'login'
+    'admin': 'admin'
 
   auth: (cb)->
+    callback = cb
+    cb = =>
+      @adminPosts or= new AdminPostsCollection
+      callback()
+
     unless @session.get('logged_in') is yes
       @login('You must be logged in to view that page', cb)
     else
@@ -86,7 +94,7 @@ class Application extends Backbone.Router
   newPost: ->
     @auth =>
       view = new EditPostView
-        collection: @posts
+        collection: @adminPosts
         pages: @pages
         uniqueName: 'new_post'
       @swap view
@@ -94,7 +102,10 @@ class Application extends Backbone.Router
 
   editPost: (slug) ->
     @auth =>
-      post = @posts.getOrMake slug
+      if @session.get('logged_in')
+        post = @adminPosts.getOrMake slug
+      else
+        post = @posts.getOrMake slug
       view = new EditPostView
         model: post
         uniqueName: 'edit_post'
@@ -102,7 +113,10 @@ class Application extends Backbone.Router
       @swap view
 
   postBySlug: (slug) ->
-    post = @posts.getOrMake slug
+    if @session.get('logged_in')
+      post = @adminPosts.getOrMake slug
+    else
+      post = @posts.getOrMake slug
     view = new PostView
       session: @session
       model: post
@@ -124,5 +138,16 @@ class Application extends Backbone.Router
       uniqueName: 'posts_view'
     @fetcher @posts
     @swap view
+
+  admin: ->
+    @auth =>
+      console.log @session
+      view = new PostsView
+        childViewType: AdminPostView
+        collection: @adminPosts
+        session: @session
+        uniqueName: 'admin_panel'
+      @fetcher @adminPosts
+      @swap view
 
 module.exports = Application

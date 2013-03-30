@@ -61,6 +61,11 @@ getPosts = (req, res)->
     if err then res.send 404
     else res.send posts
 
+getPublishedPosts = (req, res)->
+  API.getPublishedPosts (err, posts)->
+    if err then res.send 404
+    else res.send posts
+
 getPostBySlug = (req, res)->
   API.getPostBySlug req.params.slug, (err, post)->
     if err then res.send 404, 'Post not found'
@@ -72,11 +77,12 @@ getPages = (req, res)->
     else res.send posts
 
 app.post '/api/login', auth
-app.delete '/api/posts/slug', auth, deletePost
+app.delete '/api/posts/:slug', auth, deletePost
 app.put '/api/posts/:slug', auth, updatePost
 app.post '/api/posts/:slug', auth, createPost
 app.post '/api/posts', auth, createPost
-app.get '/api/posts', getPosts
+app.get '/api/posts', getPublishedPosts
+app.get '/api/posts/all', auth, getPosts
 app.get '/api/posts/:slug', getPostBySlug
 app.get '/api/pages', getPages
 app.get '/api/pages/:slug', getPostBySlug

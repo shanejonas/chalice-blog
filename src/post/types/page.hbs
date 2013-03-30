@@ -7,7 +7,8 @@
     <h1>{{title}}</h1>
   {{/if}}
   {{#logged_in}}
-    <a href="{{url}}/edit">Edit</a>
+    <div class="button edit">Edit</div>
+    <div class="button delete">Delete</div>
   {{/logged_in}}
   {{{body}}}
 </article>

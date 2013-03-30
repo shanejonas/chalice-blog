@@ -41,6 +41,12 @@ module.exports =
       if err then callback err
       else callback null, clean posts
 
+  getPublishedPosts: (callback)->
+    Post.find(status: 'published').sort(created_at: -1).all (err, posts) ->
+      posts = _(posts).filter (post)-> post.type isnt 'page'
+      if err then callback err
+      else callback null, clean posts
+
   getPostBySlug: (slug, callback)->
     if _(slug).isArray() then [slug] = slug
     Post.first {slug}, (err, post) ->

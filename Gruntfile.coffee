@@ -33,10 +33,16 @@ module.exports = (grunt)->
         beforeHook: beforeHook
     stylus:
       dev:
-        debug: yes
+        options:
+          debug: yes
+          use: ['nib']
+          import: ['nib']
         files:
           'public/style.css': 'stylesheets/**/*.styl'
       build:
+        options:
+          use: ['nib']
+          import: ['nib']
         files:
           'public/style.css': 'stylesheets/**/*.styl'
 

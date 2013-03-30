@@ -8,10 +8,18 @@ CompositeView = require 'chalice-compositeview'
 class PostsView extends CompositeView
 
   initialize: ->
-    @collection.on 'reset', =>
+    @session = @options.session
+    if @options.childViewType then @childViewType = @options.childViewType
+    super
+
+  afterRender: ->
+    super
+    afterRender = =>
       @getViews(yes)
       @render()
-    , @
+    @collection.on 'add', afterRender
+    @collection.on 'remove', afterRender
+    @collection.on 'reset', afterRender
 
   className: 'PostsView'
 
@@ -19,13 +27,8 @@ class PostsView extends CompositeView
 
   getViews: (force=no)->
     return @views unless @collection? or not force
-    @views = (new @childViewType {model: model, parent: @} for model in @collection.models)
+    @views = (new @childViewType {model: model, parent: @, session: @session} for model in @collection.models)
     @views
-
-  render: ->
-    super
-    view._ensureElement() for view in @views
-    this
 
   toHTML: ->
     @getViews()

@@ -22,13 +22,13 @@ class EditPostView extends View
     'keyup': 'compileMarkdown'
     'change select': 'compileMarkdown'
     'submit form': 'submit'
+    'click #draft': 'draftSubmit'
     'click .toggleVim': 'toggleVim'
     'click .toggleLines': 'toggleLines'
 
   compileMarkdown: ->
     data = @serialize()
     data.slug = _.slugify data.title
-    console.log data
     if @previewModel? then @previewModel.set data
     if @previewView then @previewView.remove()
     if not @model and @collection?
@@ -56,19 +56,24 @@ class EditPostView extends View
     super
     @pages = @options.pages
 
-  submit: (e)->
+  draftSubmit: (e)->
+    @submit e, yes
+
+  submit: (e, draft)->
     e.preventDefault()
     attrs = @serialize()
     attrs.slug = _.slugify attrs.title
+    attrs.status = if draft then 'draft' else 'published'
     if attrs.type is 'page'
       coll = @pages
     else
       coll = @collection
     if not @model and @collection?
       @model = new @collection.model
-      coll.add @model, at: 0
+      coll.add @model, at: 0 if not draft
     @model.set attrs
     @model.save()
+    # if its a draft redirect to admin.. .maybe redirect to admin anyways?
     Backbone.history.navigate "/posts/#{@model.get('slug')}", trigger: yes
 
   initCodeMirror: ->

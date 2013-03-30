@@ -21,15 +21,20 @@ class PostView extends View
     @session = @options.session
     super
 
+  events:
+    'click .button.edit': 'edit'
+    'click .button.delete': 'delete'
+
   className: "PostView"
 
   getUniqueName: ->
     @model.get('slug')
 
-  initialize: ->
+  afterRender: ->
+    super
+    console.log 'afterRender called', arguments
     @session?.on 'change', @render, @
     @model?.on 'change', @render, @
-    super
 
   getTemplateData: ->
     _.extend @model?.toJSON(),
@@ -50,9 +55,10 @@ class PostView extends View
     @session = null
     super
 
-  # render: ->
-  #   @_ensureElement()
-  #   if not Backbone.$? then return this
-  #   super
+  delete: (e)->
+    @model.destroy()
+
+  edit: (e)->
+    Backbone.history.navigate "/posts/#{@model.get('slug')}/edit", trigger: yes
 
 module.exports = PostView

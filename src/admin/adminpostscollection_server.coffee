@@ -1,12 +1,13 @@
 API = require '../../api'
-PostsCollection = require './postscollection.coffee'
-PostsCollection::sync = (method, model, options)->
+AdminPostsCollection = require './adminpostscollection'
+
+AdminPostsCollection::sync = (method, model, options)->
   switch method
     when "create"
       API.createPost @toJSON(), (err, resp)->
         options.success model, resp, options
     when "read"
-      resp = API.getPublishedPosts (err, resp)->
+      resp = API.getPosts (err, resp)->
         options.success model, resp, options
     when "update"
       resp = API.updatePost @get('slug'), @toJSON(), (err, resp)->
