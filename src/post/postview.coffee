@@ -40,7 +40,7 @@ class PostView extends View
     _.extend @model?.toJSON(),
       url: "/posts/" + @model.get('slug')
       parent: @options.parent
-      pubDate: moment(@model.get('updated_at')).format("dddd, MMMM Do YYYY");
+      pubDate: moment(@model.get('created_at')).format("dddd, MMMM Do YYYY");
       body: if @options.parent then null else @model.get('body')
       logged_in: @session?.get('logged_in')
 
@@ -57,6 +57,7 @@ class PostView extends View
 
   delete: (e)->
     @model.destroy()
+    Backbone.history.navigate "/admin", trigger: yes
 
   edit: (e)->
     Backbone.history.navigate "/posts/#{@model.get('slug')}/edit", trigger: yes

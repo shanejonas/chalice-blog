@@ -13,7 +13,7 @@ class AdminPostView extends Post
     _.extend @model?.toJSON(),
       url: "/posts/" + @model.get('slug')
       parent: @options.parent
-      pubDate: moment(@model.get('updated_at')).format("dddd, MMMM Do YYYY");
+      pubDate: moment(@model.get('created_at')).format("dddd, MMMM Do YYYY");
       logged_in: @session?.get('logged_in')
       body: null
       media: null

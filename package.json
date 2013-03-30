@@ -32,6 +32,8 @@
     "should": "~1.2.2",
     "mocha": "~1.8.2",
     "cheerio": "~0.10.8",
-    "browserify-shim": "~2.0.3"
+    "browserify-shim": "~2.0.3",
+    "uglify-js2": "~2.1.11",
+    "connect": "~2.7.3"
   }
 }

@@ -36,4 +36,8 @@ class PostsView extends CompositeView
 
   template: template
 
+  remove: ->
+    @stopListening @collection
+    super
+
 module.exports = PostsView

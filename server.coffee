@@ -1,7 +1,9 @@
 express = require 'express'
+connect = require 'connect'
 fs = require 'fs'
 app = module.exports = express.createServer()
 app.configure ->
+  app.use connect.compress()
   app.use express.bodyParser()
   app.use app.router
   app.use express.static __dirname + '/public'

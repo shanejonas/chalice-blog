@@ -30,6 +30,6 @@ describe 'PostsView', ->
       collection = new Backbone.Collection [{title: 'About', slug: 'about'}]
       view = new PostsView
         collection: collection
-      result = view.render().$el.html()
-      result.should.include 'About'
+      result = view.render()
+      result.$el.html().should.include 'About'
 

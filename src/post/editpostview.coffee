@@ -28,6 +28,7 @@ class EditPostView extends View
 
   compileMarkdown: ->
     data = @serialize()
+    data.body = Marked data.markdown
     data.slug = _.slugify data.title
     if @previewModel? then @previewModel.set data
     if @previewView then @previewView.remove()
@@ -62,6 +63,7 @@ class EditPostView extends View
   submit: (e, draft)->
     e.preventDefault()
     attrs = @serialize()
+    attrs.body = Marked attrs.markdown
     attrs.slug = _.slugify attrs.title
     attrs.status = if draft then 'draft' else 'published'
     if attrs.type is 'page'
@@ -96,14 +98,20 @@ class EditPostView extends View
           window?.loadedCodeMirror = yes
           @initCodeMirror()
 
+  render: ->
+    console.log 'render called'
+    super
+
   afterRender: ->
     super
-    @model?.on 'change', => @render()
+    if @model?
+      @stopListening @model, ['change']
+      @listenTo @model, 'change', => @render()
     @loadCodeMirror()
 
   serialize: ->
     title: (@$ "input[name='title']").val()
-    body: Marked(@editor.getValue())
+    markdown: @editor.getValue()
     type: (@$ "select[name='type']").val()
     media: (@$ "input[name='media']").val()
 
@@ -139,7 +147,7 @@ class EditPostView extends View
 
   getTemplateData: ->
     @allTheRightType()
-    body = toMarkdown(@model?.get('body') or '')
+    body = @model?.get('markdown')
     _.extend @model?.toJSON() or {},
       url: @model?.url()
       body: body
@@ -148,9 +156,9 @@ class EditPostView extends View
   template: template
 
   remove: ->
-    @previewView.remove()
+    @previewView?.remove()
     @previewModel = null
-    @model?.off null, null, this
+    @stopListening @model
     super
 
 module.exports = EditPostView

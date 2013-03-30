@@ -1,6 +1,7 @@
 handleify = require 'handleify'
 coffeeify = require 'coffeeify'
 shim = require 'browserify-shim'
+uglify = require 'uglify-js2'
 
 module.exports = (grunt)->
 
@@ -13,24 +14,27 @@ module.exports = (grunt)->
   @initConfig
     clean:
       build: ['public/application.js']
-      docs: ['public/docs']
-    dss:
-      docs:
-        options:
-          template: './dss/'
-        files:
-          'public/docs/': 'stylesheets/**/*.styl'
     browserify2:
-      dev:
+      serve:
         entry: './src/bootstrap.coffee'
         mount: '/application.js'
         server: './server.coffee'
         debug: yes
         beforeHook: beforeHook
+      dev:
+        entry: './src/bootstrap.coffee'
+        mount: '/application.js'
+        compile: './public/application.js'
+        debug: yes
+        beforeHook: beforeHook
       build:
+        debug: no
         entry: './src/bootstrap.coffee'
         compile: './public/application.js'
         beforeHook: beforeHook
+        afterHook: (src)->
+          result = uglify.minify src, fromString: true
+          result.code
     stylus:
       dev:
         options:
@@ -41,6 +45,7 @@ module.exports = (grunt)->
           'public/style.css': 'stylesheets/**/*.styl'
       build:
         options:
+          debug: no
           use: ['nib']
           import: ['nib']
         files:
@@ -50,8 +55,9 @@ module.exports = (grunt)->
   @loadNpmTasks 'grunt-browserify2'
   @loadNpmTasks 'grunt-devtools'
   @loadNpmTasks 'grunt-contrib-stylus'
-  @loadNpmTasks 'grunt-dss'
+  @loadNpmTasks 'grunt-contrib-watch'
 
-  @registerTask 'default', ['clean:build', 'stylus:dev', 'browserify2:dev']
-  @registerTask 'build', ['clean', 'dss', 'browserify2:build']
-  @registerTask 'docs', ['clean:docs', 'dss']
+  @registerTask 'default', ['clean:build', 'stylus:dev', 'browserify2:serve']
+  @registerTask 'build', ['clean', 'browserify2:build', 'stylus:build']
+  @registerTask 'serve', ['browserify2:serve']
+  @registerTask 'dev', ['browserify2:dev', 'stylus:dev']
