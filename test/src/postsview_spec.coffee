@@ -18,18 +18,3 @@ describe 'PostsView', ->
     collection = new Backbone.Collection [{title: 'About', slug: 'about'}]
     view = new PostsView
     view.className.should.equal 'PostsView'
-
-  describe 'client side', ->
-    cheerio = require('cheerio')
-
-    afterEach: ->
-      Backbone.$ = null
-
-    it 'renders data from a collection', ->
-      Backbone.$ = cheerio.load('<body></body>')
-      collection = new Backbone.Collection [{title: 'About', slug: 'about'}]
-      view = new PostsView
-        collection: collection
-      result = view.render()
-      result.$el.html().should.include 'About'
-

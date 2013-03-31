@@ -12,15 +12,17 @@ module.exports = (grunt)->
       zepto: path: './vendor/zepto', exports: 'Zepto'
 
   @initConfig
+    watch:
+      files: [
+        'src/**/*'
+        'stylesheets/**/*'
+      ]
+      tasks: ['clean:build', 'stylus:dev', 'browserify2:dev', 'express-server']
     clean:
       build: ['public/application.js']
+    server:
+      script: './express-server.coffee'
     browserify2:
-      serve:
-        entry: './src/bootstrap.coffee'
-        mount: '/application.js'
-        server: './express-server.coffee'
-        debug: yes
-        beforeHook: beforeHook
       dev:
         entry: './src/bootstrap.coffee'
         mount: '/application.js'
@@ -56,8 +58,9 @@ module.exports = (grunt)->
   @loadNpmTasks 'grunt-devtools'
   @loadNpmTasks 'grunt-contrib-stylus'
   @loadNpmTasks 'grunt-contrib-watch'
+  @loadTasks 'tasks'
 
-  @registerTask 'default', ['clean:build', 'stylus:dev', 'browserify2:serve']
+  @registerTask 'default', ['clean:build', 'stylus:dev', 'browserify2:dev', 'express-server', 'watch']
   @registerTask 'build', ['clean', 'browserify2:build', 'stylus:build']
   @registerTask 'serve', ['browserify2:serve']
   @registerTask 'dev', ['browserify2:dev', 'stylus:dev']

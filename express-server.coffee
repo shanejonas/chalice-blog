@@ -1,6 +1,7 @@
 fs = require 'fs'
 express = require 'express'
 connect = require 'connect'
+
 app = module.exports = express.createServer()
 app.configure ->
   app.use connect.compress()
@@ -8,7 +9,6 @@ app.configure ->
   app.use app.router
   app.use express.static __dirname + '/public'
   app.disable 'x-powered-by'
-app.listen(3000)
 
 handlebars = require 'handleify/node_modules/handlebars'
 # handlebar templates on the server
@@ -18,8 +18,14 @@ require.extensions['.hbs'] = (module, filename) ->
     template context
 
 index = require './index.html.hbs'
+
+# express plugins
 require('chalice-server')(app, index)
-require('./src/bootstrap')
-require './override'
 require('./express-api')(app)
+
+# boot the app server side
+require './override'
+require './src/bootstrap'
+
 module.exports = app
+app.listen(3000)
