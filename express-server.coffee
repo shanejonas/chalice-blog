@@ -1,9 +1,13 @@
 fs = require 'fs'
 express = require 'express'
 connect = require 'connect'
+app = express()
 
-app = module.exports = express.createServer()
+# TODO: only leave this in for development
+lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet
+
 app.configure ->
+  app.use lrSnippet
   app.use connect.compress()
   app.use express.bodyParser()
   app.use app.router
@@ -29,3 +33,4 @@ require './src/bootstrap'
 
 module.exports = app
 app.listen(3000)
+console.log('listening on port 3000')

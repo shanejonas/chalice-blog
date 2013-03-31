@@ -35,6 +35,8 @@
     "browserify-shim": "~2.0.3",
     "uglify-js2": "~2.1.11",
     "connect": "~2.7.3",
-    "grunt-contrib-watch": "~0.3.1"
+    "grunt-contrib-watch": "~0.3.1",
+    "grunt-contrib-livereload": "git://github.com/shanejonas/grunt-contrib-livereload.git#master",
+    "grunt-regarde": "~0.1.1"
   }
 }

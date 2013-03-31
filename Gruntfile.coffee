@@ -12,20 +12,21 @@ module.exports = (grunt)->
       zepto: path: './vendor/zepto', exports: 'Zepto'
 
   @initConfig
-    watch:
-      files: [
-        'src/**/*'
-        'stylesheets/**/*'
-      ]
-      tasks: ['clean:build', 'stylus:dev', 'browserify2:dev', 'express-server']
+    regarde:
+      styles:
+        files: ['stylesheets/**/*']
+        tasks: ['clean:styles', 'stylus:dev', 'livereload']
+      app:
+        files: ['src/**/*']
+        tasks: ['clean:build', 'browserify2:dev', 'express-server', 'livereload']
     clean:
+      styles: ['public/style.css']
       build: ['public/application.js']
     server:
       script: './express-server.coffee'
     browserify2:
       dev:
         entry: './src/bootstrap.coffee'
-        mount: '/application.js'
         compile: './public/application.js'
         debug: yes
         beforeHook: beforeHook
@@ -57,10 +58,11 @@ module.exports = (grunt)->
   @loadNpmTasks 'grunt-browserify2'
   @loadNpmTasks 'grunt-devtools'
   @loadNpmTasks 'grunt-contrib-stylus'
-  @loadNpmTasks 'grunt-contrib-watch'
+  @loadNpmTasks 'grunt-contrib-livereload'
+  @loadNpmTasks 'grunt-regarde'
   @loadTasks 'tasks'
 
-  @registerTask 'default', ['clean:build', 'stylus:dev', 'browserify2:dev', 'express-server', 'watch']
+  @registerTask 'default', ['clean', 'stylus:dev', 'browserify2:dev', 'express-server', 'livereload-start', 'regarde']
   @registerTask 'build', ['clean', 'browserify2:build', 'stylus:build']
-  @registerTask 'serve', ['browserify2:serve']
+  @registerTask 'serve', ['express-server', 'express-keepalive']
   @registerTask 'dev', ['browserify2:dev', 'stylus:dev']
