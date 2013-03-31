@@ -17,9 +17,10 @@ class PostsView extends CompositeView
     afterRender = =>
       @getViews(yes)
       @render()
-    @collection.on 'add', afterRender
-    @collection.on 'remove', afterRender
-    @collection.on 'reset', afterRender
+    @stopListening @collection, ['add', 'remove', 'reset']
+    @listenTo @collection, 'add', afterRender
+    @listenTo @collection, 'remove', afterRender
+    @listenTo @collection, 'reset', afterRender
 
   className: 'PostsView'
 

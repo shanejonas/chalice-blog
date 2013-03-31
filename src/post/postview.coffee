@@ -32,9 +32,12 @@ class PostView extends View
 
   afterRender: ->
     super
-    console.log 'afterRender called', arguments
-    @session?.on 'change', @render, @
-    @model?.on 'change', @render, @
+    if @model
+      @stopListening @model, ['change']
+      @listenTo @model, 'change', => @render()
+    if @session
+      @stopListening @session, ['change']
+      @listenTo @session, 'change', => @render()
 
   getTemplateData: ->
     _.extend @model?.toJSON(),

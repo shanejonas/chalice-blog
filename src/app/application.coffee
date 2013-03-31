@@ -142,7 +142,6 @@ class Application extends Backbone.Router
 
   admin: ->
     @auth =>
-      console.log @session
       view = new PostsView
         childViewType: AdminPostView
         collection: @adminPosts

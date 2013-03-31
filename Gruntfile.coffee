@@ -18,7 +18,7 @@ module.exports = (grunt)->
       serve:
         entry: './src/bootstrap.coffee'
         mount: '/application.js'
-        server: './server.coffee'
+        server: './express-server.coffee'
         debug: yes
         beforeHook: beforeHook
       dev:

@@ -5,7 +5,12 @@ class NavbarView extends View
 
   initialize: ->
     @session = @options.session
-    @collection?.on 'reset', @render, @
+
+  afterRender: ->
+    super
+    if @collection?
+      @stopListening @collection, ['reset']
+      @listenTo @collection, 'reset', => @render()
 
   className: "NavBarView"
 
