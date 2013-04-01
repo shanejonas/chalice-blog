@@ -60,6 +60,7 @@ module.exports = (grunt)->
   @loadNpmTasks 'grunt-contrib-stylus'
   @loadNpmTasks 'grunt-contrib-livereload'
   @loadNpmTasks 'grunt-regarde'
+  @loadNpmTasks 'grunt-devtools'
   @loadTasks 'tasks'
 
   @registerTask 'default', ['clean', 'stylus:dev', 'browserify2:dev', 'express-server', 'livereload-start', 'regarde']

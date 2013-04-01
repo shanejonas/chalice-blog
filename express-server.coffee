@@ -32,5 +32,6 @@ require './override'
 require './src/bootstrap'
 
 module.exports = app
+# TODO: only 3000 for development
 app.listen(3000)
 console.log('listening on port 3000')
