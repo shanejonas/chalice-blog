@@ -23,7 +23,7 @@
 
 #### To Run:
 
-You need `npm` and `node` installed first. After that you can run:
+You need `node` and `mongodb` installed (probably from `brew`) first. After that you can run:
 ```
   npm install
   npm install -g grunt-cli
