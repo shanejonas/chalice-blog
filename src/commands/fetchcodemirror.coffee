@@ -3,7 +3,7 @@ $ = Backbone.$
 
 # zepto getScript converted to coffeescript
 # http://stackoverflow.com/questions/8556465/whats-the-zepto-equivalent-of-jquery-getscript
-$.getScript = (url, success, error)->
+$?.getScript = (url, success, error)->
   script = document.createElement("script")
   $script = ($ script)
   script.src = url
@@ -23,7 +23,7 @@ module.exports = (callback)->
   cb = _.after files.length, callback
 
   # load codemirror first
-  $.getScript "/codemirror/codemirror.js", ->
+  $?.getScript "/codemirror/codemirror.js", ->
 
     # load the rest
     for file in files

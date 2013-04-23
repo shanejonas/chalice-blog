@@ -1,7 +1,7 @@
 Backbone = require 'backbone'
-$ = Backbone.$
+try Backbone.$ = require '$' catch e
 _ = require 'underscore'
-if Backbone.$? then require 'chalice-client'
+Router = require 'chalice-client'
 PostsView = require '../posts/postsview.coffee'
 PostView = require '../post/postview.coffee'
 PostsCollection = require '../posts/postscollection.coffee'
@@ -14,17 +14,13 @@ NavBarView = require '../navbar/navbarview.coffee'
 LoginView = require '../login/loginview.coffee'
 CompositeView = require 'chalice-compositeview'
 
-class Application extends Backbone.Router
-
-  uniqueName: 'app'
+class Application extends Router
 
   getAppView: ->
     new CompositeView
-      uniqueName: 'app'
 
   getNavigationView: ->
     new NavBarView
-      uniqueName: 'navbar'
       collection: @pages
       session: @session
 
@@ -87,7 +83,6 @@ class Application extends Backbone.Router
     view = new LoginView
       model: @session
       message: msg
-      uniqueName: 'login_view'
       cb: cb
     @fetcher()
     @swap view
@@ -97,7 +92,6 @@ class Application extends Backbone.Router
       view = new EditPostView
         collection: @adminPosts
         pages: @pages
-        uniqueName: 'new_post'
       @swap view
       @fetcher()
 
@@ -109,7 +103,6 @@ class Application extends Backbone.Router
         post = @posts.getOrMake slug
       view = new EditPostView
         model: post
-        uniqueName: 'edit_post'
       @fetcher post
       @swap view
 
@@ -121,7 +114,6 @@ class Application extends Backbone.Router
     view = new PostView
       session: @session
       model: post
-      uniqueName: 'post_by_id_view'
     @fetcher post
     @swap view
 
@@ -129,14 +121,12 @@ class Application extends Backbone.Router
     page = @pages.getOrMake slug
     view = new PostView
       model: page
-      uniqueName: 'page_by_id_view'
     @fetcher page
     @swap view
 
   allPosts: ->
     view = new PostsView
       collection: @posts
-      uniqueName: 'posts_view'
     @fetcher @posts
     @swap view
 
@@ -146,8 +136,16 @@ class Application extends Backbone.Router
         childViewType: AdminPostView
         collection: @adminPosts
         session: @session
-        uniqueName: 'admin_panel'
       @fetcher @adminPosts
       @swap view
 
 module.exports = Application
+
+makeApplication = ->
+  new Application
+
+Backbone.$? ->
+  makeApplication()
+  Backbone.history.start pushState: yes
+
+makeApplication() if not Backbone.$

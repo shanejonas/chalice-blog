@@ -9,7 +9,7 @@ module.exports = (grunt)->
     bundle.transform coffeeify
     bundle.transform handleify
     shim bundle,
-      zepto: path: './vendor/zepto', exports: 'Zepto'
+      $: path: './vendor/zepto', exports: 'Zepto'
 
   @initConfig
     regarde:
@@ -26,13 +26,13 @@ module.exports = (grunt)->
       script: './express-server.coffee'
     browserify2:
       dev:
-        entry: './src/bootstrap.coffee'
+        entry: './src/app/application.coffee'
         compile: './public/application.js'
         debug: yes
         beforeHook: beforeHook
       build:
         debug: no
-        entry: './src/bootstrap.coffee'
+        entry: './src/app/application.coffee'
         compile: './public/application.js'
         beforeHook: beforeHook
         afterHook: (src)->

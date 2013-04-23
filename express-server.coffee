@@ -1,4 +1,3 @@
-fs = require 'fs'
 express = require 'express'
 connect = require 'connect'
 app = express()
@@ -7,31 +6,22 @@ app = express()
 lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet
 
 app.configure ->
+  # TODO: only leave this in for development
   app.use lrSnippet
   app.use connect.compress()
-  app.use express.bodyParser()
-  app.use app.router
   app.use express.static __dirname + '/public'
-  app.disable 'x-powered-by'
-
-handlebars = require 'handleify/node_modules/handlebars'
-# handlebar templates on the server
-require.extensions['.hbs'] = (module, filename) ->
-  template = handlebars.compile fs.readFileSync filename, 'utf8'
-  module.exports = (context) ->
-    template context
-
-index = require './index.html.hbs'
+  app.use (req, res, next)->
+    res.setHeader('Content-Type', 'charset=utf-8')
+    next()
 
 # express plugins
-require('chalice-server')(app, index)
+require('chalice-server')(app, require './index.html.hbs')
 require('./express-api')(app)
 
 # boot the app server side
 require './override'
-require './src/bootstrap'
+require './src/app/application.coffee'
 
-module.exports = app
 # TODO: only 3000 for development
 app.listen(3000)
 console.log('listening on port 3000')
